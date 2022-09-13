@@ -6,7 +6,6 @@
 
 - Сортировка вставками (insertion-sort)
 - Рекурсивная сортировка слиянием (merge-sort)
-- Итеративная сортировка слиянием (merge-sort)
 
 ```cpp
 #include <vector>
