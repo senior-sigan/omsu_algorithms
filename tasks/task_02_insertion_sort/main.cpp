@@ -1,8 +1,8 @@
-#include <vector>
 #include <iostream>
+#include <vector>
 
-void insertions_sort(std::vector<int>& arr) {
-    // TODO: напиши меня!
+void insertions_sort(std::vector<int> &arr) {
+  // TODO: напиши меня!
 }
 
 int main() {

@@ -1,16 +1,18 @@
-#include <vector>
 #include <iostream>
+#include <vector>
 
-void merge(std::vector<int>& arr, std::vector<int>& buffer, size_t begin, size_t middle, size_t end) {
-    // TODO: напишите слияние двух отсортированных массивов
+void merge(std::vector<int> &arr, std::vector<int> &buffer, size_t begin,
+           size_t middle, size_t end) {
+  // TODO: напишите слияние двух отсортированных массивов
 }
 
-void merge_sort(std::vector<int>& arr, std::vector<int>& buffer, size_t begin, size_t end) {
-    // TODO: напишите merge_sort (ваш Кэп!)
+void merge_sort(std::vector<int> &arr, std::vector<int> &buffer, size_t begin,
+                size_t end) {
+  // TODO: напишите merge_sort (ваш Кэп!)
 }
 
-void run_merge_sort(std::vector<int>& arr) {
-    // TODO: напиши меня!
+void run_merge_sort(std::vector<int> &arr) {
+  // TODO: напиши меня!
 }
 
 int main() {

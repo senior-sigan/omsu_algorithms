@@ -17,4 +17,7 @@ reformat:
 build:
 	$(CXX) $(CFLAGS) $(LDFLAGS) $(SOURCES) -o main
 
-.PHONY = build run all reformat
+clean:
+	rm -f main main-debug
+
+.PHONY = build run all reformat clean

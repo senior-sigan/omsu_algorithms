@@ -1,14 +1,14 @@
-#include <vector>
+#include <algorithm>
 #include <iostream>
 #include <string>
-#include <algorithm>
+#include <vector>
 
 struct Student {
-    std::string name;
-    int age;
+  std::string name;
+  int age;
 };
 
-void sort_students(std::vector<Student>& arr) {
+void sort_students(std::vector<Student> &arr) {
   // TODO: напиши меня!
 }
 
@@ -20,7 +20,7 @@ int main() {
   std::cin >> n;
 
   std::vector<Student> arr(n);
-  for (auto& el : arr) {
+  for (auto &el : arr) {
     std::cin >> el.name;
     std::cin >> el.age;
   }
