@@ -1,6 +1,6 @@
 # Задание 2. Сортировки
 
-## 2.3 Сортировка вставками (Insertions sort)
+## 2.1 Сортировка вставками (Insertions sort)
 
 [Шаблон кода](tasks/task_02_insertion_sort/main.cpp)
 
