@@ -1,3 +1,8 @@
+---
+layout: page
+title: Задание 1. Введение
+---
+
 # Задание 1. Введение
 
 ## 1.1 Проверка скобок
@@ -72,7 +77,7 @@ Outout: false
 
 Функция должна вернуть размер нового массива. Размер массива `arr` не меняется.
 
-```
+```cpp
 int removeElementInplace(vector<int>& arr, int val) {
     // TODO
 }
