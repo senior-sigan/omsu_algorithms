@@ -6,6 +6,7 @@ async function createProcessor() {
   const remarkParse = await import("remark-parse");
   const remarkRehype = await import("remark-rehype");
   const { unified } = await import("unified");
+  const rehypeRaw = await import("rehype-raw");
   const rehypeStringify = await import("rehype-stringify");
 
   // for dynamic imports we have to call .default
@@ -13,7 +14,8 @@ async function createProcessor() {
     .use(remarkParse.default)
     .use(remarkMath.default)
     .use(remarkGfm.default)
-    .use(remarkRehype.default)
+    .use(remarkRehype.default, { allowDangerousHtml: true })
+    .use(rehypeRaw.default)
     .use(rehypeKatex.default)
     .use(rehypeHighlight.default)
     .use(rehypeStringify.default);
