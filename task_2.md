@@ -5,6 +5,8 @@ title: Задание 2. Сортировки
 
 # Задание 2. Сортировки
 
+[Теория](/theory/sort)
+
 ## 2.1 Сортировка вставками (Insertions sort)
 
 [Шаблон кода](https://replit.com/@IlyaSiganov/0201insertionsort)
