@@ -1,0 +1,9 @@
+put hello world
+put name ilya
+get hello
+get ilya
+delete hello
+get hello
+get name
+put name vasya
+get name
