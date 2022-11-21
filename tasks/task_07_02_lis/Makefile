@@ -9,6 +9,8 @@ all: build reformat run
 run:
 	./main < tests/input_01.txt | diff tests/output_01.txt -
 	./main < tests/input_02.txt | diff tests/output_02.txt -
+	./main < tests/input_03.txt | diff tests/output_03.txt -
+	./main < tests/input_04.txt | diff tests/output_04.txt -
 	echo 'DONE!'
 
 reformat:
