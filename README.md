@@ -2,7 +2,7 @@
 
 В этом репозитории лежат шаблоны заданий и тесты в папке `tasks` и тексты заданий.
 
-Собранный сайт: [algo.senior-sigan.net](https://algo.senior-sigan.net)
+Собранный сайт: [algo.senior-sigan.ru](https://algo.senior-sigan.ru)
 
 ## Контакты
 
