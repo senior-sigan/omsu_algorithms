@@ -1,12 +1,12 @@
 ---@class Vec
-local Vec = {x=0, y=0}
+local Vec = { x = 0, y = 0 }
 Vec.__index = Vec
 
 ---@param x number|nil
 ---@param y number|nil
 ---@return Vec
 local function new(x, y)
-  return setmetatable({x=x or 0, y=y or 0}, Vec)
+  return setmetatable({ x = x or 0, y = y or 0 }, Vec)
 end
 
 ---@param a Vec
@@ -28,9 +28,9 @@ end
 ---@return Vec
 function Vec.__mul(a, b)
   if type(a) == "number" then
-    return new(a*b.x, a*b.y)
+    return new(a * b.x, a * b.y)
   elseif type(b) == "number" then
-    return new(a.x*b, a.y*b)
+    return new(a.x * b, a.y * b)
   else
     return new(a.x * b.x, a.y * b.y)
   end
@@ -39,11 +39,11 @@ end
 ---@param b Vec
 ---@return number
 function Vec:dot(b)
-  return self.x*b.x + self.y*b.y
+  return self.x * b.x + self.y * b.y
 end
 
 ---@return number
-function  Vec:length()
+function Vec:length()
   return math.sqrt(self.x * self.x + self.y * self.y)
 end
 
@@ -53,5 +53,5 @@ function Vec:norm()
 end
 
 return setmetatable({
-  new=new,
-}, {__call = function(_,...) return new(...) end})
+  new = new,
+}, { __call = function(_, ...) return new(...) end })
