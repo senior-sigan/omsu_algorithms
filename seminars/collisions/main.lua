@@ -100,6 +100,8 @@ function love.update(dt)
   end
 
   for _, col in ipairs(collisions) do
+    ---@see https://www.vobarian.com/collisions/2dcollisions2.pdf
+
     local a, b = unpack(col)
     local dir = b.c - a.c
     local dist = dir:length()
