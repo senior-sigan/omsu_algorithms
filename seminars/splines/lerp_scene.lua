@@ -24,6 +24,8 @@ local function draw()
 
   love.graphics.setColor(1,0,0)
   love.graphics.circle('fill', p.x, p.y, 8)
+
+  love.graphics.line(p1.x, p1.y, p2.x, p2.y)
 end
 
 return {
