@@ -2,15 +2,38 @@ local function lerp(a, b, t)
   return a * (1-t) + b * t
 end
 
-local function clamp01(a)
-  return math.min(1, math.max(a, 0))
-end
-
 local function lerp2d(a, b, t)
   return {
     x=lerp(a.x, b.x, t),
     y=lerp(a.y, b.y, t),
   }
+end
+
+local function invLerp(a, b, v)
+  return (v-a) / (b - a)
+end
+
+local function invLerp2d(a, b, v)
+  return {
+    x= invLerp(a.x, b.x, v),
+    y= invLerp(a.y, b.y, v),
+  }
+end
+
+local function remap(a1,a2, b1,b2, a)
+  local t = invLerp(a1,a2, a)
+  return lerp(b1, b2, t)
+end
+
+local function remap2d(a1,a2, b1,b2, a)
+  local t = invLerp(a1,a2, a)
+  return lerp2d(b1, b2, t)
+end
+
+
+
+local function clamp01(a)
+  return math.min(1, math.max(a, 0))
 end
 
 local function quad_bezier(p1, p2, p3, t)
@@ -61,8 +84,10 @@ end
 
 return {
   lerp=lerp,
-  clamp01=clamp01,
   lerp2d=lerp2d,
+  remap=remap,
+  remap2d=remap2d,
+  clamp01=clamp01,
   quad_bezier = quad_bezier,
   cubic_bezier = cubic_bezier,
   pointCircle = pointCircle,
