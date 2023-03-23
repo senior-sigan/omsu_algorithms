@@ -30,10 +30,12 @@ local function remap2d(a1,a2, b1,b2, a)
   return lerp2d(b1, b2, t)
 end
 
-
+local function clamp(v, min, max)
+  return math.min(max, math.max(v, min))
+end
 
 local function clamp01(a)
-  return math.min(1, math.max(a, 0))
+  return clamp(a, 0, 1)
 end
 
 local function quad_bezier(p1, p2, p3, t)
@@ -87,6 +89,7 @@ return {
   lerp2d=lerp2d,
   remap=remap,
   remap2d=remap2d,
+  clamp=clamp,
   clamp01=clamp01,
   quad_bezier = quad_bezier,
   cubic_bezier = cubic_bezier,

@@ -7,7 +7,9 @@ local points = {
   { x = 140, y = 50 },
   { x = 145, y = 220 },
   { x = 605, y = 300 },
-  { x = 395, y = 430 }
+  { x = 395, y = 430 },
+  { x = 500, y = 130 },
+  { x = 420, y = 230 },
 }
 
 local grabber = lib.Grabber(points)
@@ -34,11 +36,16 @@ local function getPoint(p0, p1, p2, p3, t)
   return lib.remap2d(k1, k2, b1, b2, u)
 end
 
+function love.mousepressed(x, y, button, istouch, presses)
+  if button == 2 then
+    table.insert(points, { x = x, y = y })
+  end
+end
 
 local function update(dt)
   time = time + speed * dt
-  if time > 1 or time < 0 then
-    time = lib.clamp01(time)
+  if time > (#points - 3) or time < 0 then
+    time = lib.clamp(time, 0, #points - 3)
     speed = -1 * speed
   end
 
@@ -51,16 +58,20 @@ local function draw()
     love.graphics.circle('fill', point.x, point.y, 4)
   end
 
-  local p = getPoint(points[1], points[2], points[3], points[4], time)
+  for i = 1, #points - 3, 1 do
+    local z0 = points[i + 1]
+    for t = 0, 1, 0.01 do
+      local z1 = getPoint(points[i], points[i + 1], points[i + 2], points[i + 3], t)
+      love.graphics.line(z0.x, z0.y, z1.x, z1.y)
+      z0 = z1
+    end
+  end
+
+  local t = time % 1
+  local n = math.floor(time) % (#points - 3)
+  local p = getPoint(points[1 + n], points[2 + n], points[3 + n], points[4 + n], t)
   love.graphics.setColor(1, 0, 0)
   love.graphics.circle('fill', p.x, p.y, 8)
-
-  local z0 = points[2]
-  for t = 0, 1, 0.01 do
-    local z1 = getPoint(points[1], points[2], points[3], points[4], t)
-    love.graphics.line(z0.x, z0.y, z1.x, z1.y)
-    z0 = z1
-  end
 end
 
 return {
