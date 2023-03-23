@@ -1,0 +1,10 @@
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+
+[*.{js,ts,json,lua}]
+indent_style = space
+indent_size = 2
+
