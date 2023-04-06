@@ -19,24 +19,44 @@ local symbols = {
   newline = string.byte('\n')
 }
 
+-- local mapData = trim[[
+-- ________________
+-- __###________>__
+-- __##_#__________
+-- __##__#_________
+-- __##_____##_____
+-- _________##_____
+-- _________##_____
+-- ____########_#__
+-- ____#####_______
+-- ________________
+-- ____@___________
+-- __________##____
+-- __________##____
+-- ________________
+-- ________________
+-- ________________
+-- ]]
+
 local mapData = trim[[
-________________
-__###________>__
-__##_#__________
-__##__#_________
-__##_____##_____
-_________##_____
-_________##_____
-____########_#__
-____#####_______
-________________
-____@___________
-__________##____
-__________##____
-________________
-________________
-________________
+^^_____#______^^
+^^_____#______^^
+^^_____#______^^
+^^____________^^
+^^_____________^
+_____^^^^^^_____
+_____^^^^^______
+_____^^^^^______
+_@___^^^___^__>_
+_____^^^^^______
+_____^^^^^______
+^^___^^^^^____^^
+^^___^^^^^^^#_^^
+^^____________^^
+^^_____#______^^
+^^_____#______^^
 ]]
+
 
 
 local function parseWorld(data)
@@ -59,16 +79,16 @@ local function parseWorld(data)
     else
       if cell == symbols.player then
         playerPos = { x = x, y = y }
-        table.insert(map[y], { cost = 1, x = x, y = y, type=TYPE.FLOOR })
+        table.insert(map[y], { id=i, cost = 1, x = x, y = y, type=TYPE.FLOOR })
       elseif cell == symbols.target then
         targetPos = { x = x, y = y }
-        table.insert(map[y], { cost = 1, x = x, y = y, type=TYPE.FLOOR })
+        table.insert(map[y], { id=i, cost = 1, x = x, y = y, type=TYPE.FLOOR })
       elseif cell == symbols.wall then
-        table.insert(map[y], { cost = -1, x = x, y = y, type=TYPE.WALL })
+        table.insert(map[y], { id=i,cost = -1, x = x, y = y, type=TYPE.WALL })
       elseif cell == symbols.water then
-        table.insert(map[y], { cost = 3, x = x, y = y, type=TYPE.WATER })
+        table.insert(map[y], { id=i,cost = 3, x = x, y = y, type=TYPE.WATER })
       else
-        table.insert(map[y], { cost = 1, x = x, y = y, type=TYPE.FLOOR })
+        table.insert(map[y], { id=i,cost = 1, x = x, y = y, type=TYPE.FLOOR })
       end
       x = x + 1
     end
@@ -158,6 +178,45 @@ local function breadthSearch(world)
   return { next = next }
 end
 
+local function deikstraSearch(world)
+  local start = world.map[world.player.y][world.player.x]
+  start.visited = true
+  start.from = nil
+  start.costGot = 0
+
+  local queue = PriorityQueue.new()
+  queue:Add(start, 0)
+
+  local function next()
+    if queue:Size() < 1 then
+      return false
+    end
+
+    local cur = queue:Pop()
+
+    -- ранний выход
+    if cur.x == world.target.x and cur.y == world.target.y then
+      print('BUM')
+      return false
+    end
+
+    local nlist = neighbors(world.map, cur)
+    for _, n in ipairs(nlist) do
+      local newCost = n.cost + (cur.costGot or 0)
+      if n.visited ~= true or newCost < (n.costGot or 0) then
+        n.visited = true
+        n.from = cur
+        n.costGot = newCost
+        queue:Add(n, -newCost)
+      end
+    end
+
+    return true
+  end
+
+  return { next = next }
+end
+
 local function backPath(world)
   local cur = world.map[world.target.y][world.target.x]
   local done = false
@@ -177,7 +236,8 @@ end
 function love.load()
   world = parseWorld(mapData)
   print('Player '..world.player.x, world.player.y)
-  search = breadthSearch(world)
+  -- search = breadthSearch(world)
+  search = deikstraSearch(world)
 end
 
 local time = 0
