@@ -38,23 +38,42 @@ local symbols = {
 -- ________________
 -- ]]
 
+-- local mapData = trim[[
+-- ^^_____#______^^
+-- ^^_____#______^^
+-- ^^_____#______^^
+-- ^^____________^^
+-- ^^_____________^
+-- _____^^^^^^_____
+-- _____^^^^^______
+-- _____^^^^^______
+-- _@___^^^___^__>_
+-- _____^^^^^______
+-- _____^^^^^______
+-- ^^___^^^^^____^^
+-- ^^___^^^^^^^#_^^
+-- ^^____________^^
+-- ^^_____#______^^
+-- ^^_____#______^^
+-- ]]
+
 local mapData = trim[[
-^^_____#______^^
-^^_____#______^^
-^^_____#______^^
-^^____________^^
-^^_____________^
-_____^^^^^^_____
-_____^^^^^______
-_____^^^^^______
-_@___^^^___^__>_
-_____^^^^^______
-_____^^^^^______
-^^___^^^^^____^^
-^^___^^^^^^^#_^^
-^^____________^^
-^^_____#______^^
-^^_____#______^^
+________________
+_____________>__
+_##############_
+______________#_
+______________#_
+______________#_
+______________#_
+______________#_
+______________#_
+______________#_
+______________#_
+______________#_
+___@__________#_
+______________#_
+__#############_
+________________
 ]]
 
 
@@ -163,14 +182,12 @@ local function breadthSearch(world)
 
     local nlist = neighbors(world.map, cur)
     for _, n in ipairs(nlist) do
-      -- print(n.x, n.y)
       if n.visited ~= true then
         table.insert(queue, 0, n)
         n.visited = true
         n.from = cur
       end
     end
-    -- print('')
 
     return true
   end
@@ -196,7 +213,6 @@ local function deikstraSearch(world)
 
     -- ранний выход
     if cur.x == world.target.x and cur.y == world.target.y then
-      print('BUM')
       return false
     end
 
@@ -208,6 +224,50 @@ local function deikstraSearch(world)
         n.from = cur
         n.costGot = newCost
         queue:Add(n, -newCost)
+      end
+    end
+
+    return true
+  end
+
+  return { next = next }
+end
+
+local function l1(src, dst)
+  -- l1 метрика aka Манхеттенское расстояние
+  return math.abs(src.x - dst.x) + math.abs(src.y - dst.y)
+end
+
+local function aStarSearch(world)
+  local start = world.map[world.player.y][world.player.x]
+  start.visited = true
+  start.from = nil
+  start.costGot = 0
+
+  local queue = PriorityQueue.new()
+  queue:Add(start, 0)
+
+  local function next()
+    if queue:Size() < 1 then
+      return false
+    end
+
+    local cur = queue:Pop()
+
+    -- ранний выход
+    if cur.x == world.target.x and cur.y == world.target.y then
+      return false
+    end
+
+    local nlist = neighbors(world.map, cur)
+    for _, n in ipairs(nlist) do
+      local newCost = n.cost + (cur.costGot or 0)
+      if n.visited ~= true or newCost < (n.costGot or 0) then
+        n.visited = true
+        n.from = cur
+        n.costGot = newCost
+        local priority = newCost + l1(world.target, n)
+        queue:Add(n, -priority)
       end
     end
 
@@ -237,7 +297,8 @@ function love.load()
   world = parseWorld(mapData)
   print('Player '..world.player.x, world.player.y)
   -- search = breadthSearch(world)
-  search = deikstraSearch(world)
+  -- search = deikstraSearch(world)
+  search = aStarSearch(world)
 end
 
 local time = 0
