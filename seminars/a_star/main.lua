@@ -1,3 +1,9 @@
+-- Код основан на статьях:
+--  https://habr.com/ru/articles/331192/
+--  https://habr.com/ru/articles/331220/
+--  https://neerc.ifmo.ru/wiki/index.php?title=Алгоритм_A*
+--  https://ru.wikipedia.org/wiki/A*
+
 local PriorityQueue = require('priority-queue')
 
 local function trim(s)

@@ -1,3 +1,5 @@
+-- Source from https://github.com/Roblox/Wiki-Lua-Libraries/blob/master/StandardLibraries/PriorityQueue.lua
+--
 -- PriorityQueue contains the following functions:
 --		.new(comparator) - Create a new PriorityQueue
 --			comparator: Uses this function to compare values. If none is given, will assume priorities are numbers and will find highest priority value
