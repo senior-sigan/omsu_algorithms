@@ -4,9 +4,16 @@ local function trim(s)
   return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
+local TYPE = {
+  FLOOR = 0,
+  WATER = 1,
+  WALL = 100,
+}
+
 local symbols = {
   floor = string.byte('_'),
   wall = string.byte('#'),
+  water = string.byte('^'),
   player = string.byte('@'),
   target = string.byte('>'),
   newline = string.byte('\n')
@@ -14,13 +21,13 @@ local symbols = {
 
 local mapData = trim[[
 ________________
-__##_________>__
-__##____________
-__##____________
+__###________>__
+__##_#__________
+__##__#_________
 __##_____##_____
 _________##_____
 _________##_____
-____#######_____
+____########_#__
 ____#####_______
 ________________
 ____@___________
@@ -52,14 +59,16 @@ local function parseWorld(data)
     else
       if cell == symbols.player then
         playerPos = { x = x, y = y }
-        table.insert(map[y], { cost = 1, x = x, y = y })
+        table.insert(map[y], { cost = 1, x = x, y = y, type=TYPE.FLOOR })
       elseif cell == symbols.target then
         targetPos = { x = x, y = y }
-        table.insert(map[y], { cost = 1, x = x, y = y })
+        table.insert(map[y], { cost = 1, x = x, y = y, type=TYPE.FLOOR })
       elseif cell == symbols.wall then
-        table.insert(map[y], { cost = -1, x = x, y = y })
+        table.insert(map[y], { cost = -1, x = x, y = y, type=TYPE.WALL })
+      elseif cell == symbols.water then
+        table.insert(map[y], { cost = 3, x = x, y = y, type=TYPE.WATER })
       else
-        table.insert(map[y], { cost = 1, x = x, y = y })
+        table.insert(map[y], { cost = 1, x = x, y = y, type=TYPE.FLOOR })
       end
       x = x + 1
     end
@@ -126,6 +135,12 @@ local function breadthSearch(world)
     end
 
     local cur = table.remove(queue)
+
+    -- ранний выход
+    if cur.x == world.target.x and cur.y == world.target.y then
+      return false
+    end
+
     local nlist = neighbors(world.map, cur)
     for _, n in ipairs(nlist) do
       -- print(n.x, n.y)
@@ -182,11 +197,17 @@ function love.draw()
   for y, line in ipairs(world.map) do
     for x, cell in ipairs(line) do
       local bx, by = drawPos(x, y)
-      if cell.cost > 0 then
+      if cell.type == TYPE.FLOOR then
         if cell.visited == true then
           love.graphics.setColor(0, 0.3, 0)
         else
           love.graphics.setColor(0, 1, 0)
+        end
+      elseif cell.type == TYPE.WATER then
+        if cell.visited == true then
+          love.graphics.setColor(0, 0, 0.3)
+        else
+          love.graphics.setColor(0, 0, 1)
         end
       else
         love.graphics.setColor(1, 0, 0)
@@ -197,7 +218,7 @@ function love.draw()
   end
 
   local px, py = drawPosCircle(world.player.x, world.player.y, UI.pr)
-  love.graphics.setColor(0, 0, 1)
+  love.graphics.setColor(1, 0, 1)
   love.graphics.circle('fill', px, py, UI.pr)
 
   local tx, ty = drawPosCircle(world.target.x, world.target.y, UI.tr)
