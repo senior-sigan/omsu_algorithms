@@ -25,24 +25,24 @@ local symbols = {
   newline = string.byte('\n')
 }
 
--- local mapData = trim[[
--- ________________
--- __###________>__
--- __##_#__________
--- __##__#_________
--- __##_____##_____
--- _________##_____
--- _________##_____
--- ____########_#__
--- ____#####_______
--- ________________
--- ____@___________
--- __________##____
--- __________##____
--- ________________
--- ________________
--- ________________
--- ]]
+local mapData = trim[[
+________________
+__###________>__
+__##_#__________
+__##__#_________
+__##_____##_____
+_________##_____
+_________##_____
+____########_#__
+____#####_______
+________________
+____@___________
+__________##____
+__________##____
+________________
+________________
+________________
+]]
 
 -- local mapData = trim[[
 -- ^^_____#______^^
@@ -53,9 +53,9 @@ local symbols = {
 -- _____^^^^^^_____
 -- _____^^^^^______
 -- _____^^^^^______
--- _@___^^^___^__>_
--- _____^^^^^______
--- _____^^^^^______
+-- _@___^^^^^____>_
+-- ______###_______
+-- ______##________
 -- ^^___^^^^^____^^
 -- ^^___^^^^^^^#_^^
 -- ^^____________^^
@@ -63,26 +63,29 @@ local symbols = {
 -- ^^_____#______^^
 -- ]]
 
-local mapData = trim[[
-________________
-_____________>__
-_##############_
-______________#_
-______________#_
-______________#_
-______________#_
-______________#_
-______________#_
-______________#_
-______________#_
-______________#_
-___@__________#_
-______________#_
-__#############_
-________________
-]]
+-- local mapData = trim[[
+-- ________________
+-- _____________>__
+-- _##############_
+-- ______________#_
+-- ______________#_
+-- ______________#_
+-- ______________#_
+-- ______________#_
+-- ______________#_
+-- ______________#_
+-- ______________#_
+-- ______________#_
+-- ___@__________#_
+-- ______________#_
+-- __#############_
+-- ________________
+-- ]]
 
-
+local function l1(src, dst)
+  -- l1 метрика aka Манхеттенское расстояние
+  return math.abs(src.x - dst.x) + math.abs(src.y - dst.y)
+end
 
 local function parseWorld(data)
   local map = {}
@@ -201,6 +204,42 @@ local function breadthSearch(world)
   return { next = next }
 end
 
+local function breadthSearchOptimized(world)
+  local queue = PriorityQueue.new()
+
+  local start = world.map[world.player.y][world.player.x]
+  start.visited = true
+  start.from = nil
+  queue:Add(start, 0)
+
+  local function next()
+    if queue:Size() < 1 then
+      return false
+    end
+
+    local cur = queue:Pop()
+
+    -- ранний выход
+    if cur.x == world.target.x and cur.y == world.target.y then
+      return false
+    end
+
+    local nlist = neighbors(world.map, cur)
+    for _, n in ipairs(nlist) do
+      if n.visited ~= true then
+        local priority = l1(n, world.target)
+        queue:Add(n, -priority)
+        n.visited = true
+        n.from = cur
+      end
+    end
+
+    return true
+  end
+
+  return { next = next }
+end
+
 local function deikstraSearch(world)
   local start = world.map[world.player.y][world.player.x]
   start.visited = true
@@ -237,11 +276,6 @@ local function deikstraSearch(world)
   end
 
   return { next = next }
-end
-
-local function l1(src, dst)
-  -- l1 метрика aka Манхеттенское расстояние
-  return math.abs(src.x - dst.x) + math.abs(src.y - dst.y)
 end
 
 local function aStarSearch(world)
@@ -303,6 +337,7 @@ function love.load()
   world = parseWorld(mapData)
   print('Player '..world.player.x, world.player.y)
   -- search = breadthSearch(world)
+  -- search = breadthSearchOptimized(world)
   -- search = deikstraSearch(world)
   search = aStarSearch(world)
 end
