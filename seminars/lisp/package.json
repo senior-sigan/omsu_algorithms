@@ -1,0 +1,29 @@
+{
+  "name": "omsu_lisp",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Lisp implementation",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "nodemon",
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js",
+    "lint": "tsc --noEmit && eslint \"src/**/*.ts\"",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies":{
+    "@types/node": "20.2.1",
+    "typescript": "5.0.4",
+    "esbuild": "0.17.19",
+    "nodemon": "2.0.22"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ignore": [
+      "src/**/*.test.ts"
+    ],
+    "ext": "ts,mjs,js,json",
+    "exec": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js && node dist/index.js"
+  }
+}
