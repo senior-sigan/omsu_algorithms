@@ -1,0 +1,16 @@
+{
+  "name": "omsu_lisp",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Lisp implementation",
+  "type": "module",
+  "scripts": {
+    "start": "node src/lisp-01.js",
+    "lint": "eslint \"src/**/*.js\""
+  },
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5"
+  }
+}
