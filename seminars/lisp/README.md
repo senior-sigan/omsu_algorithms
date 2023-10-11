@@ -10,7 +10,7 @@ REPL
 - Print
 - Loop
 
-```lisp
+```text
 (+ 1 2)
 (+ 1 (* 2 5))
 (< 5 1)
