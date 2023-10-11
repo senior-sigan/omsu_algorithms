@@ -1,0 +1,11 @@
+push 42
+top
+min
+push 12
+min
+push 13
+top
+min
+pop
+pop
+min
