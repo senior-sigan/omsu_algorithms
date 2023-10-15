@@ -1,0 +1,9 @@
+enqueue 17
+enqueue 24
+enqueue 18
+dequeue_max
+enqueue 32
+dequeue_max
+dequeue_max
+dequeue_max
+dequeue_max
