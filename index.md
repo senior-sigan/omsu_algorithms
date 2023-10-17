@@ -6,6 +6,8 @@ layout: page
 - [Требования к выполнению заданий](rules)
 - Таблица рейтинга (ссылка в чате курса)
 - [Записи лекций на ютубе](https://youtube.com/playlist?list=PLXeMZKMKyJI4w_HoZvSD2OQk3WarFgPdS)
+- [Зачет 1 семестр](smol_exam)
+- [Экзамен 2 семестр](exam)
 
 ## Задания 1-го семестра
 
