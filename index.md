@@ -34,6 +34,7 @@ layout: page
 4. [Project Euler](https://projecteuler.net/)
 5. Антти Лааксонен: Олимпиадное программирование
 6. Искусство программирования. Кнут, Д.
+7. [C++ Yandex handbook](https://education.yandex.ru/handbook/cpp)
 
 ## Контакты
 
