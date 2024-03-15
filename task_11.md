@@ -15,8 +15,8 @@ title: Задание 11. Доставка пиццы
 
 Данные:
 
-- [Простой граф](tasks/task_11_deijkstra/simple.zip)
-- [Омск](tasks/task_11_deijkstra/omsk.zip)
+- [Простой граф](/tasks/task_11_deijkstra/simple.zip)
+- [Омск](/tasks/task_11_deijkstra/omsk.zip)
 
 ![картанка](https://habrastorage.org/r/w1560/web/7a3/f91/7e2/7a3f917e25b6466b9c228ef3ec8078de.png)
 
