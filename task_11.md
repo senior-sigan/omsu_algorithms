@@ -24,6 +24,97 @@ title: Задание 11. Доставка пиццы
 
 Первый спринт разработки. Для начала определитись с форматом хранения базы данных дорог. Научитесь считывать сырые данные и складывать в удобный для вашего алгоритма формат.
 
+<details>
+<summary>Код для считывания графа из файла</summary>
+
+```cpp
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+
+struct Node {
+  long id;
+  double x;
+  double y;
+
+  Node(long id, double x, double y) : id(id), x(x), y(y) {}
+};
+
+struct Edge {
+  long u;
+  long v;
+
+  Edge(long u, long v) : u(u), v(v) {}
+};
+
+std::vector<Node> read_nodes(std::string path) {
+  std::fstream csv(path);
+
+  // skip csv header
+  std::string header;
+  std::getline(csv, header);
+
+  std::vector<Node> nodes;
+  // read data
+  for (std::string line; std::getline(csv, line);) {
+    std::stringstream lineStream(line);
+    std::string cell;
+
+    std::getline(lineStream, cell, ',');
+    long id = std::stol(cell);
+
+    std::getline(lineStream, cell, ',');
+    double x = std::stod(cell);
+
+    std::getline(lineStream, cell, ',');
+    double y = std::stod(cell);
+
+    nodes.emplace_back(id, x, y);
+  }
+
+  return nodes;
+}
+
+std::vector<Edge> read_edges(std::string path) {
+  std::fstream csv(path);
+
+  // skip csv header
+  std::string header;
+  std::getline(csv, header);
+
+  std::vector<Edge> edges;
+
+  for (std::string line; std::getline(csv, line);) {
+    std::stringstream lineStream(line);
+    std::string cell;
+
+    std::getline(lineStream, cell, ',');
+    long u = std::stol(cell);
+
+    std::getline(lineStream, cell, ',');
+    long v = std::stol(cell);
+
+    edges.emplace_back(u, v);
+  }
+
+  return edges;
+}
+
+int main() {
+  auto nodes = read_nodes("omsk/nodes.csv");
+  auto edges = read_edges("omsk/edges.csv");
+
+  std::cout << nodes.size() << std::endl;
+  std::cout << edges.size() << std::endl;
+
+  return 0;
+}
+```
+
+</details>
+
 Далее реализуйте алгоритм Дейкстры для поиска пути.
 
 ## 2. Чтобы стоять на месте нужно бежать со всех ног
