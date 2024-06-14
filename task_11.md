@@ -31,6 +31,8 @@ title: Задание 11. Доставка пиццы
 
 У меня есть шаблон для raylib проекта с cmake: [тут](https://github.com/cat-in-the-dark/cpp_game_template). Но проще всё делать на linux/macos/wsl2 и поставить raylib, как пакет-библиотеку на всю систему.
 
+[Старый стрим про установку Raylib на Macos/Linux](https://www.youtube.com/watch?v=4M0t4ylv-_I)
+
 ```cpp
 // Команда для компиляции: clang++ -std=c++20 -pedantic -pedantic-errors -Wall  -Wextra $(pkg-config --libs --cflags raylib) main.cpp -o main
 
@@ -238,6 +240,7 @@ int main() {
 
 ### Алгоритм А* и Дейкстра
 
+- [Лекция в ОмГУ про А* для игр на Lua Love2d](https://www.youtube.com/watch?v=G16xnZJBpFo)
 - [habr: Введение в алгоритм A*](https://habr.com/ru/articles/331192/)
 - [habr: Реализация алгоритма A*](https://habr.com/ru/articles/331220/)
 - [итмо: Алгоритм A*](https://neerc.ifmo.ru/wiki/index.php?title=Алгоритм_A*)
