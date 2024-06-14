@@ -27,6 +27,10 @@ title: Задание 11. Доставка пиццы
 <details>
 <summary>Код для считывания графа из файла и отрисовки на экране</summary>
 
+Для первого задания вы можете удалить всё связанное с raylib. 
+
+У меня есть шаблон для raylib проекта с cmake: [тут](https://github.com/cat-in-the-dark/cpp_game_template). Но проще всё делать на linux/macos/wsl2 и поставить raylib, как пакет-библиотеку на всю систему.
+
 ```cpp
 // Команда для компиляции: clang++ -std=c++20 -pedantic -pedantic-errors -Wall  -Wextra $(pkg-config --libs --cflags raylib) main.cpp -o main
 
@@ -38,6 +42,7 @@ title: Задание 11. Доставка пиццы
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <cmath>
 
 const int CANVAS_WIDTH = 1200;
 const int CANVAS_HEIGHT = 800;
@@ -71,9 +76,7 @@ struct Edge {
 double eucledean_dist(
   double x1, double y1, double x2, double y2
 ) {
-  return 0;
-  // TODO:
-  //return ((x2 - x1)**2 + (y2 - y1)**2) ** 0.5;
+  return std::sqrt(std::pow(x2 - x1, 2) + std::pow(y1 - y2, 2));
 }
 
 std::vector<Node> read_nodes(std::string path) {
