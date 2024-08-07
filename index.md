@@ -5,7 +5,7 @@ layout: page
 - [План курса](roadmap)
 - [Требования к выполнению заданий](rules)
 - Таблица рейтинга (ссылка в чате курса)
-- [Записи лекций на ютубе](https://youtube.com/playlist?list=PLXeMZKMKyJI4w_HoZvSD2OQk3WarFgPdS)
+- Записи лекций на [ютубе](https://youtube.com/playlist?list=PLXeMZKMKyJI4w_HoZvSD2OQk3WarFgPdS), [vk](https://vk.com/video/playlist/38057738_5)
 - [Зачет 1 семестр](smol_exam)
 - [Экзамен 2 семестр](exam)
 
