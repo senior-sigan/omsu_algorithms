@@ -31,9 +31,10 @@ function eleventyRemark() {
   };
 }
 
+/** @param {import('@11ty/eleventy').UserConfig} eleventyConfig */
 module.exports = function (eleventyConfig) {
-  eleventyConfig.addPassthroughCopy("assets");
-  eleventyConfig.addPassthroughCopy("styles");
+  eleventyConfig.addPassthroughCopy("src/assets");
+  eleventyConfig.addPassthroughCopy("src/styles");
 
   eleventyConfig.addLayoutAlias("page", "layouts/page.njk");
 
