@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lua cheatsheet</title>
+  <meta name="description" content="" />
+  <!-- Yandex.Metrika counter -->
+<meta name="yandex-verification" content="721d8d42ba7b40bb" />
+
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+ 
+    ym(91297238, "init", {
+         clickmap:true,
+         trackLinks:true,
+         accurateTrackBounce:true
+    });
+ </script>
+ <noscript><div><img src="https://mc.yandex.ru/watch/91297238" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+ <!-- /Yandex.Metrika counter -->
+
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="stylesheet" href="/styles/katex.min.css">
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a class="internal-link" href="/"><b>Алгоритмизация и программирование</b></a></li>
+    </ul>
+  </nav>
+
+  <div class="wrapper">
+    <main>
+<content>
+  <h1>Язык программирования <a href="https://www.lua.org/">Lua</a></h1>
+<p>Используем внутри движка <a href="/theory/love2d">love2d</a>.</p>
+<h2>Переменные</h2>
+<pre><code class="hljs language-lua"><span class="hljs-comment">-- локальные(лучше)</span>
+<span class="hljs-keyword">local</span> a = <span class="hljs-number">10</span>
+
+<span class="hljs-comment">--глобальные</span>
+a = <span class="hljs-number">10</span>
+</code></pre>
+<h2>Ветвление</h2>
+<pre><code class="hljs language-lua"><span class="hljs-keyword">if</span> условие <span class="hljs-keyword">then</span>
+  действия
+<span class="hljs-keyword">else</span>
+  действия
+<span class="hljs-keyword">end</span>
+</code></pre>
+<h3>Switch-case (Else If)</h3>
+<pre><code class="hljs language-lua"><span class="hljs-keyword">if</span> условие <span class="hljs-keyword">then</span>
+  действия
+<span class="hljs-keyword">elseif</span> условие <span class="hljs-keyword">then</span>
+  действия
+<span class="hljs-keyword">else</span>
+  действия
+<span class="hljs-keyword">end</span>
+</code></pre>
+<h2>Операторы сравнения</h2>
+<ul>
+<li>Равенство <code>==</code></li>
+<li>Неравно ~=</li>
+<li>Больше <code>></code></li>
+<li>Больше или равно <code>>=</code></li>
+<li>Меньше <code>&#x3C;</code></li>
+<li>Меньше или равно <code>&#x3C;=</code></li>
+</ul>
+<h2>Булевы переменные</h2>
+<p>Истина <code>true</code> (с маленькой буквы!)
+Ложь <code>false</code>.</p>
+<h2>Циклы</h2>
+<pre><code class="hljs language-lua"><span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>, <span class="hljs-number">10</span> <span class="hljs-keyword">do</span>
+  <span class="hljs-comment">-- действия</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">--цикл с шагом 3</span>
+<span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">3</span> <span class="hljs-keyword">do</span>
+  <span class="hljs-comment">-- действия</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">--цикл пробегающий по списку</span>
+<span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>, #list <span class="hljs-keyword">do</span>
+  v = list[i]
+  <span class="hljs-comment">-- действия</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">--цикл пробегающий по списку(более надежный)</span>
+<span class="hljs-keyword">for</span> i, v <span class="hljs-keyword">in</span> <span class="hljs-built_in">ipairs</span>(list) <span class="hljs-keyword">do</span>
+  <span class="hljs-comment">-- i - это индекс элемента</span>
+  <span class="hljs-comment">-- v - это элемент массива</span>
+  <span class="hljs-comment">-- действия</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">while</span>(условие)<span class="hljs-keyword">do</span>
+  <span class="hljs-comment">-- действия</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">repeat</span>
+  <span class="hljs-comment">-- действия</span>
+<span class="hljs-keyword">until</span>(условие)
+</code></pre>
+<h2>Как создать список (массив)</h2>
+<blockquote>
+<p>Индексация в массивах с <code>1</code>.</p>
+</blockquote>
+<pre><code class="hljs language-lua">arr = {<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">7</span>,<span class="hljs-number">9</span>}
+arr[<span class="hljs-number">1</span>] == <span class="hljs-number">1</span>
+arr[<span class="hljs-number">2</span>] == <span class="hljs-number">4</span>
+arr[<span class="hljs-number">3</span>] == <span class="hljs-number">7</span>
+arr[<span class="hljs-number">4</span>] == <span class="hljs-number">9</span>
+</code></pre>
+<h3>Взятие размера массива</h3>
+<pre><code class="hljs language-lua">#arr <span class="hljs-comment">-- решетка перед именем переменной массива(таблицы)</span>
+</code></pre>
+<h3>Вставка в массив</h3>
+<pre><code class="hljs language-lua">arr = {}
+<span class="hljs-built_in">table</span>.<span class="hljs-built_in">insert</span>(arr, <span class="hljs-string">'hello'</span>)
+<span class="hljs-built_in">table</span>.<span class="hljs-built_in">insert</span>(arr, <span class="hljs-string">'world'</span>)
+#arr == <span class="hljs-number">2</span>
+arr[<span class="hljs-number">1</span>] == <span class="hljs-string">'hello'</span>
+arr[<span class="hljs-number">2</span>] == <span class="hljs-string">'world'</span>
+</code></pre>
+<h3>Удаление из массива по индексу</h3>
+<pre><code class="hljs language-lua">arr = {<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'c'</span>, <span class="hljs-string">'d'</span>}
+#arr == <span class="hljs-number">4</span>
+<span class="hljs-built_in">table</span>.<span class="hljs-built_in">remove</span>(arr, <span class="hljs-number">2</span>) <span class="hljs-comment">-- {'a','c','d'}</span>
+#arr == <span class="hljs-number">3</span>
+</code></pre>
+<h2>Как создать таблицу как словарь</h2>
+<pre><code class="hljs language-lua">dict = {
+  <span class="hljs-string">"a"</span> = <span class="hljs-number">42</span>,
+  <span class="hljs-string">"b"</span> = <span class="hljs-number">32</span>,
+}
+
+dict.c = <span class="hljs-number">7</span> <span class="hljs-comment">-- положить в словарь 7 по ключу 'c'</span>
+dict[<span class="hljs-string">'d'</span>] = <span class="hljs-number">13</span> <span class="hljs-comment">-- положить в словарь 13 по ключу 'd'</span>
+</code></pre>
+<p>Оператор <code>.</code> (точка) и <code>[]</code> (квадратные скобки) — это одно и то же — доступ к полю таблицы по ключу.</p>
+<h2>ООП</h2>
+<h3>Си-стайл</h3>
+<pre><code class="hljs language-lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">NewPlayer</span><span class="hljs-params">(x, y)</span></span>
+  <span class="hljs-keyword">return</span> {
+    x = x, y = y,
+    height = <span class="hljs-number">10</span>, width = <span class="hljs-number">15</span>,
+    speedX = <span class="hljs-number">1</span>, speedY = <span class="hljs-number">0</span>,
+  }
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">PlayerDraw</span><span class="hljs-params">(self)</span></span>
+  love.graphics.rectangle(<span class="hljs-string">'fill'</span>, <span class="hljs-built_in">self</span>.x, <span class="hljs-built_in">self</span>.y, <span class="hljs-built_in">self</span>.width, <span class="hljs-built_in">self</span>.height)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">PlayerUpdate</span><span class="hljs-params">(self, dt)</span></span>
+  <span class="hljs-built_in">self</span>.x = <span class="hljs-built_in">self</span>.x + <span class="hljs-built_in">self</span>.speed * dt
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">-- Теперь использование этого объекта и методов</span>
+
+<span class="hljs-keyword">local</span> p = NewPlayer(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>)
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">love.update</span><span class="hljs-params">(dt)</span></span>
+  PlayerUpdate(p, dt)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">love.draw</span><span class="hljs-params">()</span></span>
+  PlayerDraw(p)
+<span class="hljs-keyword">end</span>
+</code></pre>
+<h3>Прототипное ООП на метатаблицах</h3>
+<p>TODO: надо бы объяснить что происходит....
+Оператор <code>:</code> — это синтаксический сахар на оператором точка <code>.</code>
+Следующие записи эквивалентны: <code>p:update(dt)</code> и <code>p.update(p, dt)</code>.</p>
+<pre><code class="hljs language-lua"><span class="hljs-keyword">local</span> Player = {
+  x = <span class="hljs-number">0</span>, y = <span class="hljs-number">0</span>,
+  width = <span class="hljs-number">50</span>, height = <span class="hljs-number">50</span>,
+  speedX = <span class="hljs-number">20</span>, speedY = <span class="hljs-number">20</span>,
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Player:new</span><span class="hljs-params">(o)</span></span>
+  o = o <span class="hljs-keyword">or</span> {}
+  <span class="hljs-built_in">self</span>.<span class="hljs-built_in">__index</span> = <span class="hljs-built_in">self</span>
+  <span class="hljs-built_in">setmetatable</span>(o, <span class="hljs-built_in">self</span>)
+  <span class="hljs-keyword">return</span> o
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Player:draw</span><span class="hljs-params">()</span></span>
+  love.graphics.rectangle(<span class="hljs-string">'fill'</span>, <span class="hljs-built_in">self</span>.x, <span class="hljs-built_in">self</span>.y, <span class="hljs-built_in">self</span>.width, <span class="hljs-built_in">self</span>.height)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Player:update</span><span class="hljs-params">(dt)</span></span>
+  <span class="hljs-built_in">self</span>.x = <span class="hljs-built_in">self</span>.x + <span class="hljs-built_in">self</span>.speedX * dt
+  <span class="hljs-built_in">self</span>.y = <span class="hljs-built_in">self</span>.y + <span class="hljs-built_in">self</span>.speedY * dt
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">--- использование</span>
+<span class="hljs-keyword">local</span> p = Player:new({x=<span class="hljs-number">10</span>, y=<span class="hljs-number">20</span>})
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">love.update</span><span class="hljs-params">(dt)</span></span>
+  p:update(dt)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">love.draw</span><span class="hljs-params">()</span></span>
+  p:draw()
+<span class="hljs-keyword">end</span>
+</code></pre>
+<h3>ООП на замыканиях</h3>
+<pre><code class="hljs language-lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Player</span><span class="hljs-params">(x, y)</span></span>
+  <span class="hljs-keyword">local</span> <span class="hljs-built_in">self</span> = {
+    x = x, y = y,
+    width = <span class="hljs-number">50</span>, height = <span class="hljs-number">50</span>,
+    speedX = <span class="hljs-number">20</span>, speedY = <span class="hljs-number">20</span>,
+  }
+  <span class="hljs-keyword">local</span> update = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(dt)</span></span>
+    <span class="hljs-built_in">self</span>.x = <span class="hljs-built_in">self</span>.x + <span class="hljs-built_in">self</span>.speedX * dt
+    <span class="hljs-built_in">self</span>.y = <span class="hljs-built_in">self</span>.y + <span class="hljs-built_in">self</span>.speedY * dt
+  <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">local</span> draw = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>
+    love.graphics.rectangle(<span class="hljs-string">'fill'</span>, <span class="hljs-built_in">self</span>.x, <span class="hljs-built_in">self</span>.y, <span class="hljs-built_in">self</span>.width, <span class="hljs-built_in">self</span>.height)
+  <span class="hljs-keyword">end</span>
+
+  <span class="hljs-keyword">return</span> {
+    update = update,
+    draw = draw,
+  }
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">-- использование</span>
+
+<span class="hljs-keyword">local</span> p = Player(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>)
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">love.update</span><span class="hljs-params">(dt)</span></span>
+  p.update(dt)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">love.draw</span><span class="hljs-params">()</span></span>
+  p.draw()
+<span class="hljs-keyword">end</span>
+</code></pre>
+<h2>Learn Lua in 5 minutes</h2>
+<p>Исходник с <a href="https://learnxinyminutes.com/docs/lua/">learnxinyminutes.com</a>.</p>
+<pre><code class="hljs language-lua">
+<span class="hljs-comment">-- Два дефиса начинают однострочный комментарий.</span>
+
+<span class="hljs-comment">--[[
+    Добавление двух квадратных скобок
+    делает комментарий многострочным.
+--]]</span>
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+<span class="hljs-comment">-- 1. Переменные, циклы и условия.</span>
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+
+num = <span class="hljs-number">42</span>  <span class="hljs-comment">-- Все числа имеют тип double.</span>
+<span class="hljs-comment">-- Не волнуйтесь, в 64-битных double 52 бита</span>
+<span class="hljs-comment">-- отведено под хранение целой части числа;</span>
+<span class="hljs-comment">-- точность не является проблемой для</span>
+<span class="hljs-comment">-- целочисленных значений, занимающих меньше 52 бит.</span>
+
+s = <span class="hljs-string">'walternate'</span>  <span class="hljs-comment">-- Неизменные строки, как в Python.</span>
+t = <span class="hljs-string">"Двойные кавычки также приветствуются"</span>
+u = <span class="hljs-string">[[ Двойные квадратные скобки
+       начинают и заканчивают
+       многострочные значения.]]</span>
+t = <span class="hljs-literal">nil</span>  <span class="hljs-comment">-- Удаляет определение переменной t; в Lua есть сборка мусора.</span>
+
+<span class="hljs-comment">-- Блоки обозначаются ключевыми словами, такими как do/end:</span>
+<span class="hljs-keyword">while</span> num &#x3C; <span class="hljs-number">50</span> <span class="hljs-keyword">do</span>
+  num = num + <span class="hljs-number">1</span>  <span class="hljs-comment">-- Операторов ++ и += нет.</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">-- Ветвление "если":</span>
+<span class="hljs-keyword">if</span> num > <span class="hljs-number">40</span> <span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">print</span>(<span class="hljs-string">'больше 40'</span>)
+<span class="hljs-keyword">elseif</span> s ~= <span class="hljs-string">'walternate'</span> <span class="hljs-keyword">then</span>  <span class="hljs-comment">-- ~= обозначает "не равно".</span>
+  <span class="hljs-comment">-- Проверка равенства это ==, как в Python; работает для строк.</span>
+  <span class="hljs-built_in">io</span>.<span class="hljs-built_in">write</span>(<span class="hljs-string">'не больше 40\n'</span>)  <span class="hljs-comment">-- По умолчанию вывод в stdout.</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-comment">-- По умолчанию переменные являются глобальными.</span>
+  thisIsGlobal = <span class="hljs-number">5</span>  <span class="hljs-comment">-- Стиль CamelСase является общим.</span>
+
+  <span class="hljs-comment">-- Как сделать переменную локальной:</span>
+  <span class="hljs-keyword">local</span> line = <span class="hljs-built_in">io</span>.<span class="hljs-built_in">read</span>()  <span class="hljs-comment">-- Считывает введённую строку.</span>
+
+  <span class="hljs-comment">-- Для конкатенации строк используется оператор .. :</span>
+  <span class="hljs-built_in">print</span>(<span class="hljs-string">'Зима пришла, '</span> .. line)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">-- Неопределённые переменные возвращают nil.</span>
+<span class="hljs-comment">-- Этот пример не является ошибочным:</span>
+foo = anUnknownVariable  <span class="hljs-comment">-- Теперь foo = nil.</span>
+
+aBoolValue = <span class="hljs-literal">false</span>
+
+<span class="hljs-comment">-- Только значения nil и false являются ложными; 0 и '' являются истинными!</span>
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> aBoolValue <span class="hljs-keyword">then</span> <span class="hljs-built_in">print</span>(<span class="hljs-string">'это значение ложно'</span>) <span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">-- Для 'or' и 'and' действует принцип "какой оператор дальше,</span>
+<span class="hljs-comment">-- тот и применяется". Это действует аналогично оператору a?b:c в C/js:</span>
+ans = aBoolValue <span class="hljs-keyword">and</span> <span class="hljs-string">'yes'</span> <span class="hljs-keyword">or</span> <span class="hljs-string">'no'</span>  <span class="hljs-comment">--> 'no'</span>
+
+karlSum = <span class="hljs-number">0</span>
+<span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>, <span class="hljs-number">100</span> <span class="hljs-keyword">do</span>  <span class="hljs-comment">-- Здесь указан диапазон, ограниченный с двух сторон.</span>
+  karlSum = karlSum + i
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">-- Используйте "100, 1, -1" как нисходящий диапазон:</span>
+fredSum = <span class="hljs-number">0</span>
+<span class="hljs-keyword">for</span> j = <span class="hljs-number">100</span>, <span class="hljs-number">1</span>, <span class="hljs-number">-1</span> <span class="hljs-keyword">do</span> fredSum = fredSum + j <span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">-- В основном, диапазон устроен так: начало, конец[, шаг].</span>
+
+<span class="hljs-comment">-- Другая конструкция цикла:</span>
+<span class="hljs-keyword">repeat</span>
+  <span class="hljs-built_in">print</span>(<span class="hljs-string">'путь будущего'</span>)
+  num = num - <span class="hljs-number">1</span>
+<span class="hljs-keyword">until</span> num == <span class="hljs-number">0</span>
+
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+<span class="hljs-comment">-- 2. Функции.</span>
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fib</span><span class="hljs-params">(n)</span></span>
+  <span class="hljs-keyword">if</span> n &#x3C; <span class="hljs-number">2</span> <span class="hljs-keyword">then</span> <span class="hljs-keyword">return</span> n <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">return</span> fib(n - <span class="hljs-number">2</span>) + fib(n - <span class="hljs-number">1</span>)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">-- Вложенные и анонимные функции являются нормой:</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">adder</span><span class="hljs-params">(x)</span></span>
+  <span class="hljs-comment">-- Возвращаемая функция создаётся, когда вызывается функция adder,</span>
+  <span class="hljs-comment">-- и запоминает значение переменной x:</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(y)</span></span> <span class="hljs-keyword">return</span> x + y <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+a1 = adder(<span class="hljs-number">9</span>)
+a2 = adder(<span class="hljs-number">36</span>)
+<span class="hljs-built_in">print</span>(a1(<span class="hljs-number">16</span>))  <span class="hljs-comment">--> 25</span>
+<span class="hljs-built_in">print</span>(a2(<span class="hljs-number">64</span>))  <span class="hljs-comment">--> 100</span>
+
+<span class="hljs-comment">-- Возвраты, вызовы функций и присвоения работают со списками,</span>
+<span class="hljs-comment">-- которые могут иметь разную длину.</span>
+<span class="hljs-comment">-- Лишние получатели принимают значение nil, а лишние значения игнорируются.</span>
+
+x, y, z = <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>
+<span class="hljs-comment">-- Теперь x = 1, y = 2, z = 3, а 4 просто отбрасывается.</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bar</span><span class="hljs-params">(a, b, c)</span></span>
+  <span class="hljs-built_in">print</span>(a, b, c)
+  <span class="hljs-keyword">return</span> <span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>, <span class="hljs-number">23</span>, <span class="hljs-number">42</span>
+<span class="hljs-keyword">end</span>
+
+x, y = bar(<span class="hljs-string">'zaphod'</span>)  <span class="hljs-comment">--> выводит "zaphod  nil nil"</span>
+<span class="hljs-comment">-- Теперь x = 4, y = 8, а значения 15..42 отбрасываются.</span>
+
+<span class="hljs-comment">-- Функции могут быть локальными и глобальными. Эти строки делают одно и то же:</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f</span><span class="hljs-params">(x)</span></span> <span class="hljs-keyword">return</span> x * x <span class="hljs-keyword">end</span>
+f = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(x)</span></span> <span class="hljs-keyword">return</span> x * x <span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">-- Эти тоже:</span>
+<span class="hljs-keyword">local</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">g</span><span class="hljs-params">(x)</span></span> <span class="hljs-keyword">return</span> <span class="hljs-built_in">math</span>.<span class="hljs-built_in">sin</span>(x) <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">local</span> g = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(x)</span></span> <span class="hljs-keyword">return</span> <span class="hljs-built_in">math</span>.<span class="hljs-built_in">sin</span>(x) <span class="hljs-keyword">end</span>
+<span class="hljs-comment">-- Эквивалентно для local function g(x)..., однако ссылки на g</span>
+<span class="hljs-comment">-- в теле функции не будут работать, как ожидалось.</span>
+<span class="hljs-keyword">local</span> g; g  = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(x)</span></span> <span class="hljs-keyword">return</span> <span class="hljs-built_in">math</span>.<span class="hljs-built_in">sin</span>(x) <span class="hljs-keyword">end</span>
+<span class="hljs-comment">-- 'local g' будет прототипом функции.</span>
+
+<span class="hljs-comment">-- Кстати, тригонометрические функции работают с радианами.</span>
+
+<span class="hljs-comment">-- Вызов функции с одним строковым параметром не требует круглых скобок:</span>
+<span class="hljs-built_in">print</span> <span class="hljs-string">'hello'</span>  <span class="hljs-comment">-- Работает без ошибок.</span>
+
+<span class="hljs-comment">-- Вызов функции с одним табличным параметром также</span>
+<span class="hljs-comment">-- не требует круглых скобок (про таблицы в след. части):</span>
+<span class="hljs-built_in">print</span> {} <span class="hljs-comment">-- Тоже сработает.</span>
+
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+<span class="hljs-comment">-- 3. Таблицы.</span>
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">-- Таблица = единственная составная структура данных в Lua;</span>
+<span class="hljs-comment">-- представляет собой ассоциативный массив.</span>
+<span class="hljs-comment">-- Подобно массивам в PHP или объектам в JS, они представляют собой</span>
+<span class="hljs-comment">-- хеш-таблицы, которые также можно использовать в качестве списков.</span>
+
+
+<span class="hljs-comment">-- Использование словарей:</span>
+
+<span class="hljs-comment">-- Литералы имеют ключ по умолчанию:</span>
+t = {key1 = <span class="hljs-string">'value1'</span>, key2 = <span class="hljs-literal">false</span>}
+
+<span class="hljs-comment">-- Строковые ключи используются, как в точечной нотации в JS:</span>
+<span class="hljs-built_in">print</span>(t.key1)  <span class="hljs-comment">-- Печатает 'value1'.</span>
+t.newKey = {}  <span class="hljs-comment">-- Добавляет новую пару ключ/значение.</span>
+t.key2 = <span class="hljs-literal">nil</span>   <span class="hljs-comment">-- Удаляет key2 из таблицы.</span>
+
+<span class="hljs-comment">-- Литеральная нотация для любого значения ключа (кроме nil):</span>
+u = {[<span class="hljs-string">'@!#'</span>] = <span class="hljs-string">'qbert'</span>, [{}] = <span class="hljs-number">1729</span>, [<span class="hljs-number">6.28</span>] = <span class="hljs-string">'tau'</span>}
+<span class="hljs-built_in">print</span>(u[<span class="hljs-number">6.28</span>])  <span class="hljs-comment">-- пишет "tau"</span>
+
+<span class="hljs-comment">-- Ключ соответствует значению для чисел и строк, но при</span>
+<span class="hljs-comment">-- использовании таблицы в качестве ключа берётся её экземпляр.</span>
+a = u[<span class="hljs-string">'@!#'</span>]  <span class="hljs-comment">-- Теперь a = 'qbert'.</span>
+b = u[{}]     <span class="hljs-comment">-- Вы могли ожидать 1729, но получится nil:</span>
+<span class="hljs-comment">-- b = nil, т.к. ключ не будет найден.</span>
+<span class="hljs-comment">-- Это произойдёт потому, что за ключ мы использовали не тот же самый объект,</span>
+<span class="hljs-comment">-- который был использован для сохранения оригинального значения.</span>
+<span class="hljs-comment">-- Поэтому строки и числа удобнее использовать в качестве ключей.</span>
+
+<span class="hljs-comment">-- Вызов функции с одной таблицей в качестве аргумента</span>
+<span class="hljs-comment">-- не требует круглых скобок:</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">h</span><span class="hljs-params">(x)</span></span> <span class="hljs-built_in">print</span>(x.key1) <span class="hljs-keyword">end</span>
+h{key1 = <span class="hljs-string">'Sonmi~451'</span>}  <span class="hljs-comment">-- Печатает 'Sonmi~451'.</span>
+
+<span class="hljs-keyword">for</span> key, val <span class="hljs-keyword">in</span> <span class="hljs-built_in">pairs</span>(u) <span class="hljs-keyword">do</span>  <span class="hljs-comment">-- Цикл по таблице.</span>
+  <span class="hljs-built_in">print</span>(key, val)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">-- _G - это таблица со всеми глобалями.</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">_G</span>[<span class="hljs-string">'_G'</span>] == <span class="hljs-built_in">_G</span>)  <span class="hljs-comment">-- Печатает 'true'.</span>
+
+<span class="hljs-comment">-- Использование таблиц, как списков / массивов:</span>
+
+<span class="hljs-comment">-- Список значений с неявно заданными целочисленными ключами:</span>
+v = {<span class="hljs-string">'value1'</span>, <span class="hljs-string">'value2'</span>, <span class="hljs-number">1.21</span>, <span class="hljs-string">'gigawatts'</span>}
+<span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span>, #v <span class="hljs-keyword">do</span>  <span class="hljs-comment">-- #v - размер списка v.</span>
+  <span class="hljs-built_in">print</span>(v[i])  <span class="hljs-comment">-- Нумерация начинается с 1 !!</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">-- Список не является отдельным типом. v - всего лишь таблица</span>
+<span class="hljs-comment">-- с последовательными целочисленными ключами, воспринимаемая как список.</span>
+
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+<span class="hljs-comment">-- 3.1 Метатаблицы и метаметоды.</span>
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">-- Таблицу можно связать с метатаблицей, задав ей поведение, как при</span>
+<span class="hljs-comment">-- перегрузке операторов. Позже мы увидим, что метатаблицы поддерживают</span>
+<span class="hljs-comment">-- поведение, как в js-прототипах.</span>
+f1 = {a = <span class="hljs-number">1</span>, b = <span class="hljs-number">2</span>}  <span class="hljs-comment">-- Представляет дробь a/b.</span>
+f2 = {a = <span class="hljs-number">2</span>, b = <span class="hljs-number">3</span>}
+
+<span class="hljs-comment">-- Это не сработает:</span>
+<span class="hljs-comment">-- s = f1 + f2</span>
+
+metafraction = {}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">metafraction.__add</span><span class="hljs-params">(f1, f2)</span></span>
+  <span class="hljs-keyword">local</span> sum = {}
+  sum.b = f1.b * f2.b
+  sum.a = f1.a * f2.b + f2.a * f1.b
+  <span class="hljs-keyword">return</span> sum
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-built_in">setmetatable</span>(f1, metafraction)
+<span class="hljs-built_in">setmetatable</span>(f2, metafraction)
+
+s = f1 + f2  <span class="hljs-comment">-- вызвать __add(f1, f2) на метатаблице от f1</span>
+
+<span class="hljs-comment">-- f1, f2 не имеют ключа для своих метатаблиц в отличии от прототипов в js,</span>
+<span class="hljs-comment">-- нужно получить его через getmetatable(f1). Метатаблица - обычная таблица</span>
+<span class="hljs-comment">-- поэтому с ключами, известными для Lua (например, __add).</span>
+
+<span class="hljs-comment">-- Но следущая строка будет ошибочной т.к в s нет метатаблицы:</span>
+<span class="hljs-comment">-- t = s + s</span>
+<span class="hljs-comment">-- Похожий на классы подход, приведенный ниже, поможет это исправить.</span>
+
+<span class="hljs-comment">-- __index перегружает в метатаблице просмотр через точку:</span>
+defaultFavs = {animal = <span class="hljs-string">'gru'</span>, food = <span class="hljs-string">'donuts'</span>}
+myFavs = {food = <span class="hljs-string">'pizza'</span>}
+<span class="hljs-built_in">setmetatable</span>(myFavs, {<span class="hljs-built_in">__index</span> = defaultFavs})
+eatenBy = myFavs.animal  <span class="hljs-comment">-- работает! спасибо, мета-таблица.</span>
+
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+<span class="hljs-comment">-- При неудаче прямой табличный поиск попытается использовать</span>
+<span class="hljs-comment">-- значение __index в метатаблице, причём это рекурсивно.</span>
+
+<span class="hljs-comment">-- Значение __index также может быть функцией</span>
+<span class="hljs-comment">-- function(tbl, key) для настраиваемого поиска.</span>
+
+<span class="hljs-comment">-- Значения типа __index, __add, ... называются метаметодами.</span>
+<span class="hljs-comment">-- Ниже приведён полный список метаметодов.</span>
+
+<span class="hljs-comment">-- __add(a, b)                          для a + b</span>
+<span class="hljs-comment">-- __sub(a, b)                          для a - b</span>
+<span class="hljs-comment">-- __mul(a, b)                          для a * b</span>
+<span class="hljs-comment">-- __div(a, b)                          для a / b</span>
+<span class="hljs-comment">-- __mod(a, b)                          для a % b</span>
+<span class="hljs-comment">-- __pow(a, b)                          для a ^ b</span>
+<span class="hljs-comment">-- __unm(a)                             для -a</span>
+<span class="hljs-comment">-- __concat(a, b)                       для a .. b</span>
+<span class="hljs-comment">-- __len(a)                             для #a</span>
+<span class="hljs-comment">-- __eq(a, b)                           для a == b</span>
+<span class="hljs-comment">-- __lt(a, b)                           для a &#x3C; b</span>
+<span class="hljs-comment">-- __le(a, b)                           для a &#x3C;= b</span>
+<span class="hljs-comment">-- __index(a, b) &#x3C;функция или таблица>  для a.b</span>
+<span class="hljs-comment">-- __newindex(a, b, c)                  для a.b = c</span>
+<span class="hljs-comment">-- __call(a, ...)                       для a(...)</span>
+
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+<span class="hljs-comment">-- 3.2 Классоподобные таблицы и наследование.</span>
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">-- В Lua нет поддержки классов на уровне языка,</span>
+<span class="hljs-comment">-- однако существуют разные способы их создания с помощью</span>
+<span class="hljs-comment">-- таблиц и метатаблиц.</span>
+
+<span class="hljs-comment">-- Ниже приведён один из таких способов.</span>
+
+Dog = {}                                   <span class="hljs-comment">-- 1.</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Dog:new</span><span class="hljs-params">()</span></span>                         <span class="hljs-comment">-- 2.</span>
+  <span class="hljs-keyword">local</span> newObj = {sound = <span class="hljs-string">'woof'</span>}          <span class="hljs-comment">-- 3.</span>
+  <span class="hljs-built_in">self</span>.<span class="hljs-built_in">__index</span> = <span class="hljs-built_in">self</span>                      <span class="hljs-comment">-- 4.</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">setmetatable</span>(newObj, <span class="hljs-built_in">self</span>)        <span class="hljs-comment">-- 5.</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Dog:makeSound</span><span class="hljs-params">()</span></span>                   <span class="hljs-comment">-- 6.</span>
+  <span class="hljs-built_in">print</span>(<span class="hljs-string">'I say '</span> .. <span class="hljs-built_in">self</span>.sound)
+<span class="hljs-keyword">end</span>
+
+mrDog = Dog:new()                          <span class="hljs-comment">-- 7.</span>
+mrDog:makeSound()  <span class="hljs-comment">-- 'I say woof'         -- 8.</span>
+
+<span class="hljs-comment">-- 1. Dog похоже на класс, но на самом деле это таблица.</span>
+<span class="hljs-comment">-- 2. "function tablename:fn(...)" - то же самое, что и</span>
+<span class="hljs-comment">--    "function tablename.fn(self, ...)", просто : добавляет первый аргумент</span>
+<span class="hljs-comment">--    перед собой. См. пункты 7 и 8, чтобы понять, как self получает значение.</span>
+<span class="hljs-comment">-- 3. newObj - это экземпляр класса Dog.</span>
+<span class="hljs-comment">-- 4. "self" - экземпляр класса. Зачастую self = Dog, но с помощью наследования</span>
+<span class="hljs-comment">--    это можно изменить. newObj получит свои функции, когда мы установим</span>
+<span class="hljs-comment">--    метатаблицу для newObj и __index для self на саму себя.</span>
+<span class="hljs-comment">-- 5. Напоминание: setmetatable возвращает первый аргумент.</span>
+<span class="hljs-comment">-- 6. : работает, как в пункте 2, но в этот раз мы ожидаем,</span>
+<span class="hljs-comment">--    что self будет экземпляром, а не классом.</span>
+<span class="hljs-comment">-- 7. То же самое, что и Dog.new(Dog), поэтому self = Dog в new().</span>
+<span class="hljs-comment">-- 8. То же самое, что mrDog.makeSound(mrDog); self = mrDog.</span>
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">-- Пример наследования:</span>
+
+LoudDog = Dog:new()                           <span class="hljs-comment">-- 1.</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">LoudDog:makeSound</span><span class="hljs-params">()</span></span>
+  <span class="hljs-keyword">local</span> s = <span class="hljs-built_in">self</span>.sound .. <span class="hljs-string">' '</span>                 <span class="hljs-comment">-- 2.</span>
+  <span class="hljs-built_in">print</span>(s .. s .. s)
+<span class="hljs-keyword">end</span>
+
+seymour = LoudDog:new()                       <span class="hljs-comment">-- 3.</span>
+seymour:makeSound()  <span class="hljs-comment">-- 'woof woof woof'      -- 4.</span>
+
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+<span class="hljs-comment">-- 1. LoudDog получит методы и переменные класса Dog.</span>
+<span class="hljs-comment">-- 2. В self будет ключ 'sound' из new(), см. пункт 3.</span>
+<span class="hljs-comment">-- 3. То же самое, что и "LoudDog.new(LoudDog)", конвертированное</span>
+<span class="hljs-comment">--    в "Dog.new(LoudDog)", поскольку в LoudDog нет ключа 'new',</span>
+<span class="hljs-comment">--    но в его метатаблице есть "__index = Dog".</span>
+<span class="hljs-comment">--    Результат: Метатаблицей для seymour стала LoudDog,</span>
+<span class="hljs-comment">--    а "LoudDog.__index = Dog". Поэтому seymour.key будет равно</span>
+<span class="hljs-comment">--    seymour.key, LoudDog.key, Dog.key, в зависимости от того,</span>
+<span class="hljs-comment">--    какая таблица будет первой с заданным ключом.</span>
+<span class="hljs-comment">-- 4. Ключ 'makeSound' находится в LoudDog;</span>
+<span class="hljs-comment">--    то же самое, что и "LoudDog.makeSound(seymour)".</span>
+
+<span class="hljs-comment">-- При необходимости функция new() в подклассе</span>
+<span class="hljs-comment">-- может быть похожа на аналог в базовом классе.</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">LoudDog:new</span><span class="hljs-params">()</span></span>
+  <span class="hljs-keyword">local</span> newObj = {}
+  <span class="hljs-comment">-- установить newObj</span>
+  <span class="hljs-built_in">self</span>.<span class="hljs-built_in">__index</span> = <span class="hljs-built_in">self</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">setmetatable</span>(newObj, <span class="hljs-built_in">self</span>)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+<span class="hljs-comment">-- 4. Модули.</span>
+<span class="hljs-comment">--------------------------------------------------------------------------------</span>
+
+
+<span class="hljs-comment">--[[ Я закомментировал этот раздел, чтобы остальная часть скрипта осталась
+--   работоспособной.
+
+-- Предположим, файл mod.lua будет выглядеть так:
+local M = {}
+
+local function sayMyName()
+  print('Hrunkner')
+end
+
+function M.sayHello()
+  print('Привет, ')
+  sayMyName()
+end
+
+return M
+
+-- Другой файл может использовать функциональность mod.lua:
+local mod = require('mod')  -- Запустим файл mod.lua.
+
+-- require - стандартный способ подключения модулей.
+-- require ведёт себя так:     (если не кэшировано, см. ниже)
+local mod = (function ()
+  &#x3C;содержимое mod.lua>
+end)()
+-- Файл mod.lua воспринимается, как тело функции, поэтому
+-- все локальные переменные и функции внутри него не видны за его пределами.
+
+-- Это работает, так как здесь mod = M в mod.lua:
+mod.sayHello()  -- Выведет "Привет, Hrunkner".
+
+-- Это будет ошибочным; sayMyName доступна только в mod.lua:
+mod.sayMyName()  -- ошибка
+
+-- Значения, возвращаемые require, кэшируются,
+-- поэтому содержимое файла выполняется только 1 раз,
+-- даже если он подключается с помощью require много раз.
+
+-- Предположим, mod2.lua содержит "print('Hi!')".
+local a = require('mod2')  -- Выведет "Hi!"
+local b = require('mod2')  -- Ничего не выведет; a=b.
+
+-- dofile, в отличии от require, работает без кэширования:
+dofile('mod2')  --> Hi!
+dofile('mod2')  --> Hi! (запустится снова)
+
+-- loadfile загружает файл, но не запускает его.
+f = loadfile('mod2')  -- Вызов f() запустит содержимое mod2.lua.
+
+-- loadstring - это loadfile для строк.
+g = loadstring('print(343)')  -- Вернет функцию.
+g()  -- Напишет 343.
+
+--]]</span>
+</code></pre>
+</content></main>
+  </div>
+</body>
+
+</html>

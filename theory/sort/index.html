@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сортировка массива</title>
+  <meta name="description" content="" />
+  <!-- Yandex.Metrika counter -->
+<meta name="yandex-verification" content="721d8d42ba7b40bb" />
+
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+ 
+    ym(91297238, "init", {
+         clickmap:true,
+         trackLinks:true,
+         accurateTrackBounce:true
+    });
+ </script>
+ <noscript><div><img src="https://mc.yandex.ru/watch/91297238" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+ <!-- /Yandex.Metrika counter -->
+
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="stylesheet" href="/styles/katex.min.css">
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a class="internal-link" href="/"><b>Алгоритмизация и программирование</b></a></li>
+    </ul>
+  </nav>
+
+  <div class="wrapper">
+    <main>
+<content>
+  <h1>Сортировка вставками</h1>
+<p>Дан произвольный массив из <code>n</code> элементов. Нужно упорядочить массив по неубыванию элементов.</p>
+<p>Идея алгоритма: элементы последовательно просматриваются и каждый элемент встает на место, среду уже отсортированных.</p>
+<h2>Псевдокод</h2>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> i = <span class="hljs-number">1</span> to n - <span class="hljs-number">1</span>:
+    j = i
+    <span class="hljs-keyword">while</span> j > <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> a[j-<span class="hljs-number">1</span>] > a[j]:
+        swap(a[j-<span class="hljs-number">1</span>], a[j])
+        j -= <span class="hljs-number">1</span>
+</code></pre>
+<h2>Визуализация</h2>
+<p><img src="/assets/Insertion_sort.gif" alt=""></p>
+</content></main>
+  </div>
+</body>
+
+</html>

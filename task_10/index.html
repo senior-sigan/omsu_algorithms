@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание 10. База Графов</title>
+  <meta name="description" content="" />
+  <!-- Yandex.Metrika counter -->
+<meta name="yandex-verification" content="721d8d42ba7b40bb" />
+
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+ 
+    ym(91297238, "init", {
+         clickmap:true,
+         trackLinks:true,
+         accurateTrackBounce:true
+    });
+ </script>
+ <noscript><div><img src="https://mc.yandex.ru/watch/91297238" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+ <!-- /Yandex.Metrika counter -->
+
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="stylesheet" href="/styles/katex.min.css">
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a class="internal-link" href="/"><b>Алгоритмизация и программирование</b></a></li>
+    </ul>
+  </nav>
+
+  <div class="wrapper">
+    <main>
+<content>
+  <h2>1. Определение компонент связности</h2>
+<p><img src="https://yastatic.net/s3/ml-handbook/admin/algosy_10_4_d79d964028.gif" alt="компоненты связности"></p>
+<p>Напишите алгоритм, который находит все компоненты связности в графе.</p>
+<p>Граф должен быть задан списком ребер.</p>
+<h3>Вход</h3>
+<p>В первой строке число <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>  (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>N</mi><mo>≤</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">0 \le N \le 1000 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1000</span></span></span></span>) - количество вершин графа. В следующих строках записаны ребра, как пары чисел через пробел <code>42 12</code>: вершина <code>42</code> и <code>12</code> связаны ребром.</p>
+<p>Несуществующих вершин в этих строках не будет.</p>
+<h3>Выход</h3>
+<p>На выходе <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span> строк для каждой компоненты связности. В каждой строке через пробел числа этой компоненты связности.</p>
+<h3>Пример</h3>
+<p>Вход</p>
+<pre><code class="hljs language-txt">10
+8 1
+1 0
+0 2
+1 4
+3 6
+3 7
+7 9
+</code></pre>
+<p>Выход</p>
+<pre><code class="hljs language-txt">0 1 4 8 2
+5
+6 3 7 9
+</code></pre>
+<h2>2. Топологическая сортировка</h2>
+<p><img src="https://brestprog.by/topics/topsort/topsort.png" alt="граф">
+<img src="https://brestprog.by/topics/topsort/topsort_h.png" alt="отспортированный граф"></p>
+<p>Напишите алгоритм топологической сортировки графа. Имейте ввиду, что нужно проверить, есть в графе циклы или нет.</p>
+<p>Можете реализовать любым способом: через поиск в глубину или через счетчики.</p>
+</content></main>
+  </div>
+</body>
+
+</html>

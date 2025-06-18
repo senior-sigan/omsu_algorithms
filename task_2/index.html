@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание 2. Сортировки</title>
+  <meta name="description" content="" />
+  <!-- Yandex.Metrika counter -->
+<meta name="yandex-verification" content="721d8d42ba7b40bb" />
+
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+ 
+    ym(91297238, "init", {
+         clickmap:true,
+         trackLinks:true,
+         accurateTrackBounce:true
+    });
+ </script>
+ <noscript><div><img src="https://mc.yandex.ru/watch/91297238" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+ <!-- /Yandex.Metrika counter -->
+
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="stylesheet" href="/styles/katex.min.css">
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a class="internal-link" href="/"><b>Алгоритмизация и программирование</b></a></li>
+    </ul>
+  </nav>
+
+  <div class="wrapper">
+    <main>
+<content>
+  <h1>Задание 2. Сортировки</h1>
+<p><a href="/theory/sort">Теория</a></p>
+<h2>2.1 Сортировка вставками (Insertions sort)</h2>
+<p><a href="https://replit.com/@IlyaSiganov/0201insertionsort">Шаблон кода</a></p>
+<p>Дан массив чисел. Отсортировать в порядке возрастания алгоритмом сортировки вставками.</p>
+<h3>Входные данные</h3>
+<p>Входные данные подаются на cin.</p>
+<p>В первой строке содержится число N (1 &#x3C;= N &#x3C;=100000) — количество элементов в массиве.
+Во второй строке находятся N целых чисел, по модулю не превосходящих 10^9.</p>
+<pre><code class="hljs language-txt">10
+1 2 5 1 1 2 6 8 9 3
+</code></pre>
+<h3>Выходные данные</h3>
+<p>В cout вывести отсортированный массив числе по возрастанию через пробел.</p>
+<pre><code class="hljs language-txt">1 1 1 2 2 3 5 6 8 9
+</code></pre>
+<h2>2.2 Сортировка слиянием (Merge sort)</h2>
+<p><a href="https://replit.com/@IlyaSiganov/0202mergesort">Шаблон кода</a></p>
+<p>Дан массив чисел. Отсортировать в порядке возрастания алгоритмом сортировки слиянием.</p>
+<h3>Входные данные</h3>
+<p>Входные данные подаются на cin.</p>
+<p>В первой строке содержится число N (1 &#x3C;= N &#x3C;=100000) — количество элементов в массиве.
+Во второй строке находятся N целых чисел, по модулю не превосходящих 10^9.</p>
+<pre><code class="hljs language-txt">10
+1 2 5 1 1 2 6 8 9 3
+</code></pre>
+<h3>Выходные данные</h3>
+<p>В cout вывести отсортированный массив числе по возрастанию через пробел.</p>
+<pre><code class="hljs language-txt">1 1 1 2 2 3 5 6 8 9
+</code></pre>
+<h2>2.3 Сортировка структур</h2>
+<p><a href="https://replit.com/@IlyaSiganov/0203structssort">Шаблон кода</a></p>
+<p>Упорядочить массив Студентов по возрастанию возраста и в лексикографическом порядке имен, применив сортировку дважды.
+Для этой задачи используйте сортировки из стандартной библиотеки: <a href="https://en.cppreference.com/w/cpp/algorithm/sort">sort</a> и <a href="https://en.cppreference.com/w/cpp/algorithm/stable_sort">stable_sort</a>.</p>
+<h3>Входные данные</h3>
+<p>Входные данные подаются на cin.</p>
+<p>В первой строке содержится число N (1 &#x3C;= N &#x3C;=100000) — количество элементов в массиве.
+Далее N строк. В каждой строке сначала идет строка — имя студента, и через пробел чисдло — возраст студента.</p>
+<pre><code class="hljs language-txt">4
+Vasya 21
+Vasya 19
+Anton 22
+Antonio 23
+</code></pre>
+<h3>Выходные данные</h3>
+<p>В cout вывести отсортированный массив студентов. Каждый студент на новой строке. Сначала имя, потом возраст через пробел.</p>
+<pre><code class="hljs language-txt">Anton 22
+Antonio 23
+Vasya 19
+Vasya 21
+
+</code></pre>
+</content></main>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание 9. Деревья поиска</title>
+  <meta name="description" content="" />
+  <!-- Yandex.Metrika counter -->
+<meta name="yandex-verification" content="721d8d42ba7b40bb" />
+
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+ 
+    ym(91297238, "init", {
+         clickmap:true,
+         trackLinks:true,
+         accurateTrackBounce:true
+    });
+ </script>
+ <noscript><div><img src="https://mc.yandex.ru/watch/91297238" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+ <!-- /Yandex.Metrika counter -->
+
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="stylesheet" href="/styles/katex.min.css">
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a class="internal-link" href="/"><b>Алгоритмизация и программирование</b></a></li>
+    </ul>
+  </nav>
+
+  <div class="wrapper">
+    <main>
+<content>
+  <h1>Задание 9. Деревья поиска</h1>
+<h2>9.1 Двоичное дерево поиска</h2>
+<p>Реализуйте простое двоичное дерево поиска. Без балансировки.</p>
+<h3>Вход</h3>
+<p>На вход программы подаются команды, их количество не превышает 100. В каждой строке находится одна из команд:</p>
+<ul>
+<li><code>insert x</code> - добавить в дерево ключ <code>x</code>.</li>
+<li><code>delete x</code> - удалить ключ <code>x</code> из дерева. Если ключа нет, то ничего делать не нужно.</li>
+<li><code>has x</code> - проверяет, есть ли ключ <code>x</code> в дереве. Печатает <code>t</code> или <code>f</code>.</li>
+<li><code>next x</code> - вывести минимальный элемент дерева, строго больший <code>x</code>.</li>
+<li><code>prev x</code> - вывести максимальный элемент дерева, строго меньший <code>x</code>.</li>
+</ul>
+<p>Все <code>x</code> - это целый числа типа <code>int32</code>.</p>
+<h3>Выход</h3>
+<p>Результаты выполнения команд <code>insert</code>, <code>has</code>, <code>next</code>, <code>prev</code>.</p>
+<h3>Пример</h3>
+<p><strong>Вход</strong></p>
+<pre><code class="hljs language-text">insert 5
+insert 7
+insert 3
+insert 4
+has 3
+has 8
+insert 8
+has 8
+delete 3
+has 4
+next 7
+prev 5
+</code></pre>
+<p><strong>Выход</strong></p>
+<pre><code class="hljs language-text">t
+f
+t
+t
+8
+4
+</code></pre>
+<h2>9.2 AVL-дерево</h2>
+<p>Добавьте баланисровку в дерево из 9.1.</p>
+<p>Тесты такие же как и в 9.1.</p>
+</content></main>
+  </div>
+</body>
+
+</html>

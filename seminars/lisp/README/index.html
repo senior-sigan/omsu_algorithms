@@ -1,0 +1,26 @@
+<h1>Lisp</h1>
+<p>Реализуем свой интрепретатор язка Lisp, чтобы понять, как устроены парсеры, токены, синтаксические деревья и исполнение программ.</p>
+<p>text -> <strong>SCANER</strong> -> tokens -> PARSER -> ast -> INTERPRETATOR -> result</p>
+<p>REPL</p>
+<ul>
+<li>Read</li>
+<li>Eval</li>
+<li>Print</li>
+<li>Loop</li>
+</ul>
+<pre><code class="hljs language-text">(+ 1 2)
+(+ 1 (* 2 5))
+(&#x3C; 5 1)
+</code></pre>
+<h2>Сканер токенов</h2>
+<ul>
+<li><code>(</code> - дальше будет s-выражение</li>
+<li>встречаем <code>)</code> - то это ошибка</li>
+<li>встречаем <code>EOF</code> - это остановка сканера</li>
+<li>пробелы <code> </code>, <code>\t</code> - игнорируем их</li>
+<li>встречаем цифру - читаем число</li>
+<li>встречаем минус и цифру - читаем число</li>
+<li>встречаем <code>;</code> - это комментарий, игнорируем всю строку</li>
+<li>встречаем <code>\n</code> или <code>\r</code> - это новая строка</li>
+<li>встречаем кавычку <code>"</code> - читаем строку</li>
+</ul>

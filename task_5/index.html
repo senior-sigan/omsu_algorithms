@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание 5. Хеш-таблица</title>
+  <meta name="description" content="" />
+  <!-- Yandex.Metrika counter -->
+<meta name="yandex-verification" content="721d8d42ba7b40bb" />
+
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+ 
+    ym(91297238, "init", {
+         clickmap:true,
+         trackLinks:true,
+         accurateTrackBounce:true
+    });
+ </script>
+ <noscript><div><img src="https://mc.yandex.ru/watch/91297238" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+ <!-- /Yandex.Metrika counter -->
+
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="stylesheet" href="/styles/katex.min.css">
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a class="internal-link" href="/"><b>Алгоритмизация и программирование</b></a></li>
+    </ul>
+  </nav>
+
+  <div class="wrapper">
+    <main>
+<content>
+  <h1>Задание 5. Хеш-таблица</h1>
+<p><a href="https://replit.com/@IlyaSiganov/0501hashmap#main.cpp">Шаблон кода на replit</a></p>
+<p>Реализуйте словарь (он же ассоциативный массив или Map) на основе хеш-таблицы. Для разрешения коллизий используйте метод цепочки: когда в таблице хранятся указатели на связные списки.</p>
+<p>Для таблицы используйте <code>std::vector</code>, для списка пар <code>std::list</code>.</p>
+<p>Алгоритм хеширования строк:</p>
+<pre><code class="hljs language-cpp"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">size_t</span> P = <span class="hljs-number">300007</span>;  <span class="hljs-comment">// Размер таблицы. Ближайшее простое > 3*100000</span>
+<span class="hljs-keyword">constexpr</span> <span class="hljs-type">size_t</span> A = <span class="hljs-number">31</span>;      <span class="hljs-comment">// Простое и не меньше размера алфавита</span>
+
+<span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">hash_str</span><span class="hljs-params">(<span class="hljs-type">const</span> std::string&#x26; value)</span> </span>{
+    <span class="hljs-type">size_t</span> h = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> ch : value) {
+        h = (h * A + ch) % P;
+    }
+    <span class="hljs-keyword">return</span> h;
+}
+</code></pre>
+<h2>Входные данные</h2>
+<p>На вход программы подаются команды, их количество не превышает 100_000. В каждой строке находится одна из команд:</p>
+<ul>
+<li><code>put k v</code> — сохранить ключ <code>k</code> и значение <code>v</code> таблицу. Если ключ <code>k</code> уже существует, то перезаписать значение на новое <code>v</code>.</li>
+<li><code>delete k</code> — удалить ключ k из таблицы и соответсвующее ему значение <code>v</code>.</li>
+<li><code>get k</code> — вывести в консоль значение <code>value</code> по ключу <code>k</code>. Если ключа нет, то вывести строку <code>null</code>.</li>
+</ul>
+<p>Тип данных <code>k</code> и <code>v</code> — string. Значения <code>k</code> и <code>v</code> не соджержат пробельных символов.</p>
+<p>Гарантируется, что некорректные команды подаваться НЕ будут.</p>
+<h2>Выходные данные</h2>
+<p>Вывести результаты вызова команд <code>get</code>. Каждый результат на новой строке.</p>
+<h2>Пример</h2>
+<h3>Вход</h3>
+<pre><code class="hljs language-txt">put hello world
+put name ilya
+get hello
+get ilya
+delete hello
+get hello
+get name
+put name vasya
+get name
+</code></pre>
+<h3>Выход</h3>
+<pre><code class="hljs language-txt">world
+null
+null
+ilya
+vasya
+
+</code></pre>
+</content></main>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание 11. Доставка пиццы</title>
+  <meta name="description" content="" />
+  <!-- Yandex.Metrika counter -->
+<meta name="yandex-verification" content="721d8d42ba7b40bb" />
+
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+ 
+    ym(91297238, "init", {
+         clickmap:true,
+         trackLinks:true,
+         accurateTrackBounce:true
+    });
+ </script>
+ <noscript><div><img src="https://mc.yandex.ru/watch/91297238" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+ <!-- /Yandex.Metrika counter -->
+
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="stylesheet" href="/styles/katex.min.css">
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a class="internal-link" href="/"><b>Алгоритмизация и программирование</b></a></li>
+    </ul>
+  </nav>
+
+  <div class="wrapper">
+    <main>
+<content>
+  <p><img src="/assets/pizza.jpeg" alt="pizza"></p>
+<h1>Доставка пиццы</h1>
+<p>Вы с друзьями решили запустить стартап по Доставке Пиццы. Рецепты составили, поставщиков ресурсов нашли, в аренду помещения взяли, поваров наняли.</p>
+<p>Осталось дело за разработкой алгоритма, который будет находить кратчайший путь от Кухни вашей Пиццерии до клиентов.</p>
+<p>У вас есть база данных дорог города, заданной массивом координат перекрестков и связей дорог.</p>
+<p>Данные:</p>
+<ul>
+<li><a href="/assets/task11/simple.zip">Простой граф</a></li>
+<li><a href="/assets/task11/omsk.zip">Омск</a></li>
+</ul>
+<p><img src="https://habrastorage.org/r/w1560/web/7a3/f91/7e2/7a3f917e25b6466b9c228ef3ec8078de.png" alt="картанка"></p>
+<h2>1. И пусть весь мир подождёт</h2>
+<p>Первый спринт разработки. Для начала определитись с форматом хранения базы данных дорог. Научитесь считывать сырые данные и складывать в удобный для вашего алгоритма формат.</p>
+<details>
+<summary>Код для считывания графа из файла и отрисовки на экране</summary>
+<p>Для первого задания вы можете удалить всё связанное с raylib.</p>
+<p>У меня есть шаблон для raylib проекта с cmake: <a href="https://github.com/cat-in-the-dark/cpp_game_template">тут</a>. Но проще всё делать на linux/macos/wsl2 и поставить raylib, как пакет-библиотеку на всю систему.</p>
+<p><a href="https://www.youtube.com/watch?v=4M0t4ylv-_I">Старый стрим про установку Raylib на Macos/Linux</a></p>
+<pre><code class="hljs language-cpp"><span class="hljs-comment">// Команда для компиляции: clang++ -std=c++20 -pedantic -pedantic-errors -Wall  -Wextra $(pkg-config --libs --cflags raylib) main.cpp -o main</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;fstream></span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;iomanip></span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;iostream></span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;raylib.h></span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;sstream></span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;string></span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;vector></span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;unordered_map></span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;cmath></span></span>
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> CANVAS_WIDTH = <span class="hljs-number">1200</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> CANVAS_HEIGHT = <span class="hljs-number">800</span>;
+
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span> {
+  <span class="hljs-type">long</span> id;
+  <span class="hljs-type">double</span> lon;
+  <span class="hljs-type">double</span> lat;
+
+  <span class="hljs-type">double</span> x;
+  <span class="hljs-type">double</span> y;
+
+  <span class="hljs-built_in">Node</span>(<span class="hljs-type">long</span> id, <span class="hljs-type">double</span> lon, <span class="hljs-type">double</span> lat) : <span class="hljs-built_in">id</span>(id), <span class="hljs-built_in">lon</span>(lon), <span class="hljs-built_in">lat</span>(lat) {}
+};
+
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Edge</span> {
+  <span class="hljs-type">long</span> u;
+  <span class="hljs-type">long</span> v;
+
+  <span class="hljs-type">double</span> ux;
+  <span class="hljs-type">double</span> uy;
+
+  <span class="hljs-type">double</span> vx;
+  <span class="hljs-type">double</span> vy;
+
+  <span class="hljs-type">long</span> dist; <span class="hljs-comment">// расстояние между u-v</span>
+
+  <span class="hljs-built_in">Edge</span>(<span class="hljs-type">long</span> u, <span class="hljs-type">long</span> v) : <span class="hljs-built_in">u</span>(u), <span class="hljs-built_in">v</span>(v) {}
+};
+
+<span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">eucledean_dist</span><span class="hljs-params">(
+  <span class="hljs-type">double</span> x1, <span class="hljs-type">double</span> y1, <span class="hljs-type">double</span> x2, <span class="hljs-type">double</span> y2
+)</span> </span>{
+  <span class="hljs-keyword">return</span> std::<span class="hljs-built_in">sqrt</span>(std::<span class="hljs-built_in">pow</span>(x2 - x1, <span class="hljs-number">2</span>) + std::<span class="hljs-built_in">pow</span>(y1 - y2, <span class="hljs-number">2</span>));
+}
+
+<span class="hljs-function">std::vector&#x3C;Node> <span class="hljs-title">read_nodes</span><span class="hljs-params">(std::string path)</span> </span>{
+  <span class="hljs-function">std::fstream <span class="hljs-title">csv</span><span class="hljs-params">(path)</span></span>;
+
+  <span class="hljs-comment">// skip csv header</span>
+  std::string header;
+  std::<span class="hljs-built_in">getline</span>(csv, header);
+
+  std::vector&#x3C;Node> nodes;
+  <span class="hljs-comment">// read data</span>
+  <span class="hljs-keyword">for</span> (std::string line; std::<span class="hljs-built_in">getline</span>(csv, line);) {
+    <span class="hljs-function">std::stringstream <span class="hljs-title">lineStream</span><span class="hljs-params">(line)</span></span>;
+    std::string cell;
+
+    std::<span class="hljs-built_in">getline</span>(lineStream, cell, <span class="hljs-string">','</span>);
+    <span class="hljs-type">long</span> id = std::<span class="hljs-built_in">stol</span>(cell);
+
+    std::<span class="hljs-built_in">getline</span>(lineStream, cell, <span class="hljs-string">','</span>);
+    <span class="hljs-type">double</span> lon = std::<span class="hljs-built_in">stod</span>(cell);
+
+    std::<span class="hljs-built_in">getline</span>(lineStream, cell, <span class="hljs-string">','</span>);
+    <span class="hljs-type">double</span> lat = std::<span class="hljs-built_in">stod</span>(cell);
+
+    nodes.<span class="hljs-built_in">emplace_back</span>(id, lon, lat);
+  }
+
+  <span class="hljs-keyword">return</span> nodes;
+}
+
+<span class="hljs-function">std::vector&#x3C;Edge> <span class="hljs-title">read_edges</span><span class="hljs-params">(std::string path)</span> </span>{
+  <span class="hljs-function">std::fstream <span class="hljs-title">csv</span><span class="hljs-params">(path)</span></span>;
+
+  <span class="hljs-comment">// skip csv header</span>
+  std::string header;
+  std::<span class="hljs-built_in">getline</span>(csv, header);
+
+  std::vector&#x3C;Edge> edges;
+
+  <span class="hljs-keyword">for</span> (std::string line; std::<span class="hljs-built_in">getline</span>(csv, line);) {
+    <span class="hljs-function">std::stringstream <span class="hljs-title">lineStream</span><span class="hljs-params">(line)</span></span>;
+    std::string cell;
+
+    std::<span class="hljs-built_in">getline</span>(lineStream, cell, <span class="hljs-string">','</span>);
+    <span class="hljs-type">long</span> u = std::<span class="hljs-built_in">stol</span>(cell);
+
+    std::<span class="hljs-built_in">getline</span>(lineStream, cell, <span class="hljs-string">','</span>);
+    <span class="hljs-type">long</span> v = std::<span class="hljs-built_in">stol</span>(cell);
+
+    edges.<span class="hljs-built_in">emplace_back</span>(u, v);
+  }
+
+  <span class="hljs-keyword">return</span> edges;
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">auto</span> nodes = <span class="hljs-built_in">read_nodes</span>(<span class="hljs-string">"omsk/nodes.csv"</span>);
+  <span class="hljs-keyword">auto</span> edges = <span class="hljs-built_in">read_edges</span>(<span class="hljs-string">"omsk/edges.csv"</span>);
+
+  std::unordered_map&#x3C;<span class="hljs-type">long</span>, std::<span class="hljs-type">size_t</span>> node_id_to_pos;
+  <span class="hljs-keyword">for</span> (std::<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &#x3C; nodes.<span class="hljs-built_in">size</span>(); i++) {
+    <span class="hljs-keyword">auto</span>&#x26; node = nodes[i];
+    node_id_to_pos[node.id] = i;
+  }
+
+  std::cout &#x3C;&#x3C; nodes.<span class="hljs-built_in">size</span>() &#x3C;&#x3C; std::endl;
+  std::cout &#x3C;&#x3C; edges.<span class="hljs-built_in">size</span>() &#x3C;&#x3C; std::endl;
+
+  <span class="hljs-type">double</span> min_lon = nodes[<span class="hljs-number">0</span>].lon;
+  <span class="hljs-type">double</span> max_lon = nodes[<span class="hljs-number">0</span>].lon;
+  <span class="hljs-type">double</span> min_lat = nodes[<span class="hljs-number">0</span>].lat;
+  <span class="hljs-type">double</span> max_lat = nodes[<span class="hljs-number">0</span>].lat;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &#x26;node : nodes) {
+    <span class="hljs-keyword">if</span> (min_lat > node.lat) {
+      min_lat = node.lat;
+    }
+    <span class="hljs-keyword">if</span> (min_lon > node.lon) {
+      min_lon = node.lon;
+    }
+    <span class="hljs-keyword">if</span> (max_lat &#x3C; node.lat) {
+      max_lat = node.lat;
+    }
+    <span class="hljs-keyword">if</span> (max_lon &#x3C; node.lon) {
+      max_lon = node.lon;
+    }
+  }
+
+  <span class="hljs-type">double</span> delta_lon = max_lon - min_lon;
+  <span class="hljs-type">double</span> delta_lat = max_lat - min_lat;
+  <span class="hljs-type">double</span> scale = <span class="hljs-built_in">double</span>(CANVAS_HEIGHT) / std::<span class="hljs-built_in">min</span>(delta_lat, delta_lon);
+
+  std::cout &#x3C;&#x3C; delta_lon &#x3C;&#x3C; <span class="hljs-string">" "</span> &#x3C;&#x3C; delta_lat &#x3C;&#x3C; std::endl;
+
+  std::cout &#x3C;&#x3C; min_lon &#x3C;&#x3C; <span class="hljs-string">" "</span> &#x3C;&#x3C; min_lat &#x3C;&#x3C; <span class="hljs-string">"; "</span> &#x3C;&#x3C; max_lon &#x3C;&#x3C; <span class="hljs-string">" "</span> &#x3C;&#x3C; max_lat
+            &#x3C;&#x3C; std::endl;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&#x26; node: nodes) {
+    node.x = (node.lon - min_lon) * scale;
+    <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> костыль, надо перевернуть канвас</span>
+    node.y = CANVAS_HEIGHT - ( node.lat - min_lat) * scale;
+  }
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&#x26; edge: edges) {
+    <span class="hljs-keyword">auto</span>&#x26; u = nodes[node_id_to_pos[edge.u]];
+    <span class="hljs-keyword">auto</span>&#x26; v = nodes[node_id_to_pos[edge.v]]; 
+    edge.ux = u.x;
+    edge.uy = u.y;
+    edge.vx = v.x;
+    edge.vy = v.y;
+
+    edge.dist = <span class="hljs-built_in">eucledean_dist</span>(edge.ux, edge.uy, edge.vx, edge.vy);
+  }
+
+  <span class="hljs-built_in">InitWindow</span>(CANVAS_WIDTH, CANVAS_HEIGHT, <span class="hljs-string">"OMSK"</span>);
+  <span class="hljs-built_in">SetTargetFPS</span>(<span class="hljs-number">60</span>);
+
+  <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">WindowShouldClose</span>()) {
+    <span class="hljs-built_in">BeginDrawing</span>();
+      <span class="hljs-built_in">ClearBackground</span>(RAYWHITE);
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&#x26; node: nodes) {
+        <span class="hljs-built_in">DrawCircle</span>(node.x, node.y, <span class="hljs-number">1.5</span>, RED);
+      }
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&#x26; edge: edges) {
+        <span class="hljs-built_in">DrawLine</span>(edge.ux, edge.uy, 
+                 edge.vx, edge.vy, BLACK);
+      }
+    <span class="hljs-built_in">EndDrawing</span>();
+  }
+  <span class="hljs-built_in">CloseWindow</span>();
+
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+</details>
+<p>Далее реализуйте алгоритм Дейкстры для поиска пути.</p>
+<h2>2. Чтобы стоять на месте нужно бежать со всех ног</h2>
+<p>Отдел поддержки собщает, что доставка не улкадывается в срок "доставить пиццу на за неделю". И проблема не в доставщиках пиццы и не в кухне, а в алгоритме поиска пути. Его надо ускорить!</p>
+<p>Реализуйте алгоритм А* для поиска пути.</p>
+<h2>3. Становимся Единорогом</h2>
+<p>Пользователи хотят видеть маршрут, по которому к ним поедет доставщик.</p>
+<p>Реализуйте визуализацию вашего алгоритма. Используйте для этого библиотеку <a href="https://github.com/raysan5/raylib">raylib</a>.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/BR4_SrTWbMw?si=g-JGTtbod5qvvzNe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<h2>Всякие материалы по дорогам и картам</h2>
+<ul>
+<li><a href="https://osmnx.readthedocs.io/en/stable/">OSMNX</a> - визуализация и загрузка графов дорог на питоне</li>
+<li><a href="https://geoffboeing.com/2016/11/osmnx-python-street-networks/">OSMNX туториал</a></li>
+<li><a href="https://www.openstreetmap.org/export#map=14/54.9800/73.3843">Open Street Maps</a></li>
+</ul>
+<h3>Алгоритм А* и Дейкстра</h3>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=G16xnZJBpFo">Лекция в ОмГУ про А* для игр на Lua Love2d</a></li>
+<li><a href="https://habr.com/ru/articles/331192/">habr: Введение в алгоритм A*</a></li>
+<li><a href="https://habr.com/ru/articles/331220/">habr: Реализация алгоритма A*</a></li>
+<li><a href="https://neerc.ifmo.ru/wiki/index.php?title=%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_A*">итмо: Алгоритм A*</a></li>
+<li><a href="https://ru.wikipedia.org/wiki/A*">wiki: A*</a></li>
+</ul>
+</content></main>
+  </div>
+</body>
+
+</html>

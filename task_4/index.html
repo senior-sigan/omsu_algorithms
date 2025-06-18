@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание 4. Поиск минимумов</title>
+  <meta name="description" content="" />
+  <!-- Yandex.Metrika counter -->
+<meta name="yandex-verification" content="721d8d42ba7b40bb" />
+
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+ 
+    ym(91297238, "init", {
+         clickmap:true,
+         trackLinks:true,
+         accurateTrackBounce:true
+    });
+ </script>
+ <noscript><div><img src="https://mc.yandex.ru/watch/91297238" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+ <!-- /Yandex.Metrika counter -->
+
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="stylesheet" href="/styles/katex.min.css">
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a class="internal-link" href="/"><b>Алгоритмизация и программирование</b></a></li>
+    </ul>
+  </nav>
+
+  <div class="wrapper">
+    <main>
+<content>
+  <h1>Задание 4. Поиск минимумов</h1>
+<h2>Задание 4.1. Стек минимумов</h2>
+<p><a href="https://replit.com/@IlyaSiganov/0401stackmin">Шаблон кода на replit</a></p>
+<p>Сделать стек на основе односвязного списка, у которого трудоемкость взятие минимума, вставка в стек и удаление из него за <code>O(1)</code>.</p>
+<p>Связный список надо написать самим.</p>
+<p>Операции:</p>
+<ul>
+<li>вставить в конец стека</li>
+<li>удалить последний элемент стека</li>
+<li>выдать минимальный элемент в стеке</li>
+</ul>
+<h3>Входные данные</h3>
+<p>На вход программы подаются команды, их количество не превышает 100_000. В каждой строке находится одна из команд:</p>
+<ul>
+<li><code>push k</code> — положить число k в стек.</li>
+<li><code>pop k</code> — убрать последний элемент в стеке.</li>
+<li><code>top</code> - выдать последний элемент в стеке.</li>
+<li><code>min</code> - выдать текущий минимум в стеке.</li>
+</ul>
+<p>Тип данных k — int.</p>
+<p>Гарантируется, что некорректные команды подаваться НЕ будут.</p>
+<h3>Выходные данные</h3>
+<p>Вывести результат выполнения команд <code>top</code> и <code>min</code> в консоль.</p>
+<h3>Пример</h3>
+<h4>Вход</h4>
+<pre><code class="hljs language-text">push 42
+top
+min
+push 12
+min
+push 13
+top
+min
+pop
+pop
+min
+</code></pre>
+<h4>Выход</h4>
+<pre><code class="hljs language-text">42
+42
+12
+13
+12
+42
+</code></pre>
+<h2>Задание 4.2 Очередь с приоритетом на основе Кучи</h2>
+<p><a href="https://replit.com/@IlyaSiganov/0402priorityqueue#main.cpp">Шаблон кода</a></p>
+<p>Разработать структуру данных Очередь, выполняющую следующие операции:</p>
+<ol>
+<li>Вставить в очередь за <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(log(n))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">))</span></span></span></span>.</li>
+<li>Извлечь максимальный элемент <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(log(n))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">))</span></span></span></span>.</li>
+<li>Увеличить <code>i-ый</code> элемент на <code>v</code>.</li>
+</ol>
+<p>Все операции вставки в очередь вводятся по очереди и нумеруются с 1.</p>
+<p>При извлченении элемента из очереди, нужно вывести в стандартый поток вывода сам элемент и номер операции, когда его добавили.</p>
+<p>То есть в структуре данных надо хранить само значение элемента и номер операции, когда его добавили.</p>
+<h3>Входные данные</h3>
+<p>На вход программы подаются команды, их количество не превышает 100_000. В каждой строке находится одна из команд:</p>
+<ul>
+<li><code>enqueue k</code> — вставить в очередь число k.</li>
+<li><code>dequeue_max</code> — извлечь из очереди максимальный элемент.</li>
+<li><code>inc i v</code> - найти элемент вставленныей на i-ой операции и увеличить его на v. Если элемента уже нет, то ничего не делать.</li>
+</ul>
+<p>Тип данных <code>k, v</code> — <code>int</code>, <code>i</code> — <code>unsigned int</code>.</p>
+<p>Гарантируется, что некорректные команды подаваться НЕ будут.</p>
+<h3>Выходные данные</h3>
+<p>Команда <code>dequeue-max</code> печатает в консоль номер операции i, когда элемент был вставлен, и сам элемент <code>k</code>.</p>
+<p>Если очередь пустая, то печатаем <code>*</code>.</p>
+<h3>Пример</h3>
+<h4>Вход</h4>
+<pre><code class="hljs language-text">enqueue 10
+enqueue 42
+enqueue 9
+dequeue_max
+inc 3 10
+dequeue_max
+dequeue_max
+dequeue_max
+</code></pre>
+<h4>Выход</h4>
+<pre><code class="hljs language-text">2 42
+3 19
+1 10
+*
+</code></pre>
+</content></main>
+  </div>
+</body>
+
+</html>

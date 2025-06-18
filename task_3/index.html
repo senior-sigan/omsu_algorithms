@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание 3. Сортировки 2</title>
+  <meta name="description" content="" />
+  <!-- Yandex.Metrika counter -->
+<meta name="yandex-verification" content="721d8d42ba7b40bb" />
+
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+ 
+    ym(91297238, "init", {
+         clickmap:true,
+         trackLinks:true,
+         accurateTrackBounce:true
+    });
+ </script>
+ <noscript><div><img src="https://mc.yandex.ru/watch/91297238" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+ <!-- /Yandex.Metrika counter -->
+
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="stylesheet" href="/styles/katex.min.css">
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a class="internal-link" href="/"><b>Алгоритмизация и программирование</b></a></li>
+    </ul>
+  </nav>
+
+  <div class="wrapper">
+    <main>
+<content>
+  <h1>Задание 3. Сортировки 2</h1>
+<h2>3.1 Сортировка подсчетом</h2>
+<p><a href="https://replit.com/@IlyaSiganov/0301countsort">Шаблон кода</a></p>
+<p>Дан массив из N элементов, которые принимают значения от 0 до 127. Отсортируйте этот массив в порядке возрастания элементов.</p>
+<h3>Входные данные</h3>
+<p>В первой строке число <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>N</mi><mo>≤</mo><mn>2</mn><mo>∗</mo><msup><mn>10</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">1 \le N \le 2*10^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span> — количество элементов в массиве.
+Во второй строке — массив чисел разделенных пробелом. Каждое число в диапазоне <code>[0, 127]</code>.</p>
+<pre><code class="hljs language-txt">16
+124 68 57 0 93 60 24 71 125 70 87 83 105 34 30 15
+</code></pre>
+<h3>Выходные данные</h3>
+<p>Вывести упорядоченный по возрастанию массив чисел через пробел.</p>
+<pre><code class="hljs language-txt">0 15 24 30 34 57 60 68 70 71 83 87 93 105 124 125
+</code></pre>
+<h2>3.2 Цифровая сортировка</h2>
+<p><a href="https://replit.com/@IlyaSiganov/0302radixsort">Шаблон кода</a></p>
+<p>Дан массив из N чисел, каждое из которых — это 20-разрядное число в десятичной системе счисления. Реализуйте сортировку по возрастанию этих чисел.</p>
+<p>Требуется реализовать цифровую(radix) сортировку.</p>
+<h3>Входные данные</h3>
+<pre><code class="hljs language-txt">4
+19446744073709551657
+18446744073709551616
+18446744073709551629
+18446744073709551633
+</code></pre>
+<h3>Выходные данные</h3>
+<pre><code class="hljs language-txt">18446744073709551616
+18446744073709551629
+18446744073709551633
+19446744073709551657
+</code></pre>
+</content></main>
+  </div>
+</body>
+
+</html>
