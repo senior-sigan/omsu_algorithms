@@ -7,8 +7,6 @@ title: Задание 3. Сортировки 2
 
 ## 3.1 Сортировка подсчетом
 
-[Шаблон кода](https://replit.com/@IlyaSiganov/0301countsort)
-
 Дан массив из N элементов, которые принимают значения от 0 до 127. Отсортируйте этот массив в порядке возрастания элементов.
 
 ### Входные данные
@@ -29,9 +27,20 @@ title: Задание 3. Сортировки 2
 0 15 24 30 34 57 60 68 70 71 83 87 93 105 124 125
 ```
 
-## 3.2 Цифровая сортировка
+### Шаблон кода
 
-[Шаблон кода](https://replit.com/@IlyaSiganov/0302radixsort)
+```java
+import java.util.List;
+
+public class CountingSort implements Sortable<Integer> {
+    @Override
+    public void sort(List<Integer> nums) {
+	// TODO
+    }
+}
+```
+
+## 3.2 Цифровая сортировка
 
 Дан массив из N чисел, каждое из которых — это 20-разрядное число в десятичной системе счисления. Реализуйте сортировку по возрастанию этих чисел.
 
@@ -55,3 +64,18 @@ title: Задание 3. Сортировки 2
 18446744073709551633
 19446744073709551657
 ```
+
+### Шаблон кода
+
+```java
+import java.math.BigInteger;
+import java.util.List;
+
+public class RadixSort implements Sortable<BigInteger> {
+    @Override
+    public void sort(List<BigInteger> nums) {
+	// TODO
+    }
+}
+```
+

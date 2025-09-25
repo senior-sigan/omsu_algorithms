@@ -53,12 +53,12 @@ Outout: false
 
 ### Ограничение
 
-- `1 <= str.length <= 10000`
+- `1 <= str.length() <= 10000`
 - `str` состоит только из символов `()[]{}`.
 
 <details>
 <summary>Подсказка 1.</summary>
-Используйте [стек](https://en.cppreference.com/w/cpp/container/stack) символов.
+Используйте [стек](https://docs.oracle.com/javase/8/docs/api/java/util/ArrayDeque.html) символов.
 </details>
 
 <details>
@@ -73,16 +73,26 @@ Outout: false
 
 ## 1.2 Удалить на месте
 
-Дан массив чисел `arr` и число `val`. Удалите из массива `arr` все вхождения числа `val`. Порядок элементов должен сохраниться.
+Дан массив чисел `arr` и число `val`. Удалите из массива `arr` все вхождения числа `val`. Порядок значимых элементов должен сохраниться.
 
-Удаление должно происходить на месте без выделения дополнительного куска памяти для массива.
+Удаление должно происходить на месте, без выделения дополнительного куска памяти для массива.
 
 Функция должна вернуть размер нового массива. Размер массива `arr` не меняется.
 
 Алгоритм должен работать за время $O(n)$ память $O(1)$.
 
-```cpp
-int removeElementInplace(vector<int>& arr, int val) {
+Пример сигнатуры метода
+
+```java
+public int removeElementInplace(int[] arr, int val) {
+    // TODO
+}
+```
+
+Или
+
+```java
+public int removeElementInplace(List<Integer> arr, int val) {
     // TODO
 }
 ```

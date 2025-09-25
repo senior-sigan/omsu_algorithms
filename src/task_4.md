@@ -65,9 +65,48 @@ min
 42
 ```
 
-## Задание 4.2 Очередь с приоритетом на основе Кучи
+### Шаблон кода
 
-[Шаблон кода](https://replit.com/@IlyaSiganov/0402priorityqueue#main.cpp)
+```java
+public interface MinStack<T extends Number> {
+    void push(T value);
+    
+    T pop();
+    
+    T top();
+    
+    T min();
+}
+
+// НЕ ДЕЛАЙТЕ это всё в одном файле 🙏🙏🙏
+
+public class MinStackImpl implements MinStack<Integer> {
+    @Override
+    public void push(Integer value) {
+	// TODO
+    }
+
+    @Override
+    public Integer pop() {
+	// TODO
+        return null;
+    }
+
+    @Override
+    public Integer top() {
+	// TODO
+        return null;
+    }
+
+    @Override
+    public Integer min() {
+	// TODO
+        return null;
+    }
+} 
+```
+
+## Задание 4.2 Очередь с приоритетом на основе Кучи
 
 Разработать структуру данных Очередь, выполняющую следующие операции:
 
@@ -86,10 +125,10 @@ min
 На вход программы подаются команды, их количество не превышает 100_000. В каждой строке находится одна из команд:
 
 - `enqueue k` — вставить в очередь число k.
-- `dequeue_max` — извлечь из очереди максимальный элемент.
+- `dequeue-max` — извлечь из очереди максимальный элемент.
 - `inc i v` - найти элемент вставленныей на i-ой операции и увеличить его на v. Если элемента уже нет, то ничего не делать.
 
-Тип данных `k, v` — `int`, `i` — `unsigned int`.
+Тип данных `k, v` — `Integer`, `i` — `Long`.
 
 Гарантируется, что некорректные команды подаваться НЕ будут.
 
@@ -107,11 +146,11 @@ min
 enqueue 10
 enqueue 42
 enqueue 9
-dequeue_max
+dequeue-max
 inc 3 10
-dequeue_max
-dequeue_max
-dequeue_max
+dequeue-max
+dequeue-max
+dequeue-max
 ```
 
 #### Выход
@@ -122,3 +161,36 @@ dequeue_max
 1 10
 *
 ```
+
+### Шаблон кода
+
+```java
+public interface PriorityQueue<T extends Number> {
+    void enqueue(T value);
+    
+    T dequeueMax();
+    
+    void increment(long operation, T addition);
+}
+
+// НЕ ДЕЛАЙТЕ это всё в одном файле 🙏🙏🙏
+
+public class PriorityQueueImpl implements PriorityQueue<Integer> {
+    @Override
+    public void enqueue(Integer value) {
+	// TODO
+    }
+
+    @Override
+    public Integer dequeueMax() {
+	// TODO
+        return null;
+    }
+
+    @Override
+    public void increment(long operation, Integer addition) {
+	// TODO
+    }
+} 
+```
+
