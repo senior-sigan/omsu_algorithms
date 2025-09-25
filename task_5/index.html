@@ -40,29 +40,16 @@
     <main>
 <content>
   <h1>Задание 5. Хеш-таблица</h1>
-<p><a href="https://replit.com/@IlyaSiganov/0501hashmap#main.cpp">Шаблон кода на replit</a></p>
 <p>Реализуйте словарь (он же ассоциативный массив или Map) на основе хеш-таблицы. Для разрешения коллизий используйте метод цепочки: когда в таблице хранятся указатели на связные списки.</p>
-<p>Для таблицы используйте <code>std::vector</code>, для списка пар <code>std::list</code>.</p>
-<p>Алгоритм хеширования строк:</p>
-<pre><code class="hljs language-cpp"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">size_t</span> P = <span class="hljs-number">300007</span>;  <span class="hljs-comment">// Размер таблицы. Ближайшее простое > 3*100000</span>
-<span class="hljs-keyword">constexpr</span> <span class="hljs-type">size_t</span> A = <span class="hljs-number">31</span>;      <span class="hljs-comment">// Простое и не меньше размера алфавита</span>
-
-<span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">hash_str</span><span class="hljs-params">(<span class="hljs-type">const</span> std::string&#x26; value)</span> </span>{
-    <span class="hljs-type">size_t</span> h = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> ch : value) {
-        h = (h * A + ch) % P;
-    }
-    <span class="hljs-keyword">return</span> h;
-}
-</code></pre>
+<p>Для таблицы используйте <code>ArrayList</code>, для списка пар <code>LinkedList</code>.</p>
 <h2>Входные данные</h2>
 <p>На вход программы подаются команды, их количество не превышает 100_000. В каждой строке находится одна из команд:</p>
 <ul>
 <li><code>put k v</code> — сохранить ключ <code>k</code> и значение <code>v</code> таблицу. Если ключ <code>k</code> уже существует, то перезаписать значение на новое <code>v</code>.</li>
 <li><code>delete k</code> — удалить ключ k из таблицы и соответсвующее ему значение <code>v</code>.</li>
-<li><code>get k</code> — вывести в консоль значение <code>value</code> по ключу <code>k</code>. Если ключа нет, то вывести строку <code>null</code>.</li>
+<li><code>get k</code> — вывести в консоль значение <code>v</code> по ключу <code>k</code>. Если ключа нет, то вернуть <code>null</code>.</li>
 </ul>
-<p>Тип данных <code>k</code> и <code>v</code> — string. Значения <code>k</code> и <code>v</code> не соджержат пробельных символов.</p>
+<p>Тип данных <code>k</code> и <code>v</code> — String. Значения <code>k</code> и <code>v</code> не соджержат пробельных символов.</p>
 <p>Гарантируется, что некорректные команды подаваться НЕ будут.</p>
 <h2>Выходные данные</h2>
 <p>Вывести результаты вызова команд <code>get</code>. Каждый результат на новой строке.</p>
@@ -85,6 +72,73 @@ null
 ilya
 vasya
 
+</code></pre>
+<h3>Шаблон кода</h3>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">HashMap</span>&#x3C;K, V> {
+    <span class="hljs-comment">/**
+     * Сохраняет ключ key и значение value таблицу.
+     * Если ключ key уже существует, то перезаписать значение на новое value.
+     *
+     * <span class="hljs-doctag">@param</span> key   ключ для сохранения
+     * <span class="hljs-doctag">@param</span> value значение для сохранения
+     */</span>
+    <span class="hljs-keyword">void</span> <span class="hljs-title function_">put</span><span class="hljs-params">(K key, V value)</span>;
+
+    <span class="hljs-comment">/**
+     * Вернуть значение по ключу.
+     *
+     * <span class="hljs-doctag">@param</span> key ключ для поиска
+     * <span class="hljs-doctag">@return</span> найденное значение или null, если ничего не найдено
+     */</span>
+    V <span class="hljs-title function_">getValue</span><span class="hljs-params">(K key)</span>;
+
+    <span class="hljs-comment">/**
+     * Удалить значение по ключу.
+     *
+     * <span class="hljs-doctag">@param</span> key ключ для поиска
+     * <span class="hljs-doctag">@return</span> удалённое значение или null, если ничего не найдено
+     */</span>
+    V <span class="hljs-title function_">delete</span><span class="hljs-params">(K key)</span>;
+}
+
+
+<span class="hljs-comment">// НЕ ДЕЛАЙТЕ это всё в одном файле 🙏🙏🙏</span>
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HashMapImpl</span>&#x3C;V> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HashMap</span>&#x3C;String, V> {
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">TABLE_SIZE</span> <span class="hljs-operator">=</span> <span class="hljs-number">300007</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">A</span> <span class="hljs-operator">=</span> <span class="hljs-number">31</span>;
+
+    <span class="hljs-comment">/**
+     * Алгоритм хеширования строк.
+     *
+     * <span class="hljs-doctag">@param</span> value ключ, по которому сохранится значение в хэш-таблицу
+     * <span class="hljs-doctag">@return</span> значение хэша
+     */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-type">long</span> <span class="hljs-title function_">hashByString</span><span class="hljs-params">(String value)</span> {
+        <span class="hljs-type">long</span> <span class="hljs-variable">hash</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (Character ch : value.toCharArray()) {
+            hash = (hash * A + ch) % TABLE_SIZE;
+        }
+        <span class="hljs-keyword">return</span> hash;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">put</span><span class="hljs-params">(String key, V value)</span> {
+	<span class="hljs-comment">// TODO</span>
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> V <span class="hljs-title function_">getValue</span><span class="hljs-params">(String key)</span> {
+	<span class="hljs-comment">// TODO</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> V <span class="hljs-title function_">delete</span><span class="hljs-params">(String key)</span> {
+	<span class="hljs-comment">// TODO</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    }
+} 
 </code></pre>
 </content></main>
   </div>

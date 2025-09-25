@@ -71,12 +71,12 @@ Outout: false
 </code></pre>
 <h3>Ограничение</h3>
 <ul>
-<li><code>1 &#x3C;= str.length &#x3C;= 10000</code></li>
+<li><code>1 &#x3C;= str.length() &#x3C;= 10000</code></li>
 <li><code>str</code> состоит только из символов <code>()[]{}</code>.</li>
 </ul>
 <details>
 <summary>Подсказка 1.</summary>
-Используйте [стек](https://en.cppreference.com/w/cpp/container/stack) символов.
+Используйте [стек](https://docs.oracle.com/javase/8/docs/api/java/util/ArrayDeque.html) символов.
 </details>
 <details>
 <summary>Подсказка 2.</summary>
@@ -87,11 +87,17 @@ Outout: false
 Когда встречаете закрывающую скобку, проверьте что на вершине стека лежит соответсвующая ей открывающая скобка.
 </details>
 <h2>1.2 Удалить на месте</h2>
-<p>Дан массив чисел <code>arr</code> и число <code>val</code>. Удалите из массива <code>arr</code> все вхождения числа <code>val</code>. Порядок элементов должен сохраниться.</p>
-<p>Удаление должно происходить на месте без выделения дополнительного куска памяти для массива.</p>
+<p>Дан массив чисел <code>arr</code> и число <code>val</code>. Удалите из массива <code>arr</code> все вхождения числа <code>val</code>. Порядок значимых элементов должен сохраниться.</p>
+<p>Удаление должно происходить на месте, без выделения дополнительного куска памяти для массива.</p>
 <p>Функция должна вернуть размер нового массива. Размер массива <code>arr</code> не меняется.</p>
 <p>Алгоритм должен работать за время <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> память <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>.</p>
-<pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">removeElementInplace</span><span class="hljs-params">(vector&#x3C;<span class="hljs-type">int</span>>&#x26; arr, <span class="hljs-type">int</span> val)</span> </span>{
+<p>Пример сигнатуры метода</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">removeElementInplace</span><span class="hljs-params">(<span class="hljs-type">int</span>[] arr, <span class="hljs-type">int</span> val)</span> {
+    <span class="hljs-comment">// TODO</span>
+}
+</code></pre>
+<p>Или</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">removeElementInplace</span><span class="hljs-params">(List&#x3C;Integer> arr, <span class="hljs-type">int</span> val)</span> {
     <span class="hljs-comment">// TODO</span>
 }
 </code></pre>

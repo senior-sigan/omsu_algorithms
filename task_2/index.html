@@ -42,39 +42,73 @@
   <h1>Задание 2. Сортировки</h1>
 <p><a href="/theory/sort">Теория</a></p>
 <h2>2.1 Сортировка вставками (Insertions sort)</h2>
-<p><a href="https://replit.com/@IlyaSiganov/0201insertionsort">Шаблон кода</a></p>
 <p>Дан массив чисел. Отсортировать в порядке возрастания алгоритмом сортировки вставками.</p>
 <h3>Входные данные</h3>
-<p>Входные данные подаются на cin.</p>
+<p>Входные данные подаются на System.in.</p>
 <p>В первой строке содержится число N (1 &#x3C;= N &#x3C;=100000) — количество элементов в массиве.
 Во второй строке находятся N целых чисел, по модулю не превосходящих 10^9.</p>
 <pre><code class="hljs language-txt">10
 1 2 5 1 1 2 6 8 9 3
 </code></pre>
 <h3>Выходные данные</h3>
-<p>В cout вывести отсортированный массив числе по возрастанию через пробел.</p>
+<p>В System.out вывести отсортированный массив числе по возрастанию через пробел.</p>
 <pre><code class="hljs language-txt">1 1 1 2 2 3 5 6 8 9
+</code></pre>
+<h3>Шаблон кода</h3>
+<pre><code class="hljs language-java"><span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-comment">// Этот интерфейс будет общим для всех остальных сортировок</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Sortable</span>&#x3C;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Comparable</span>&#x3C;T>> {
+    <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(List&#x3C;T> nums)</span>;
+}
+
+<span class="hljs-comment">// НЕ ДЕЛАЙТЕ это всё в одном файле 🙏🙏🙏</span>
+
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">InsertionSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sortable</span>&#x3C;Integer> {
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(List&#x3C;Integer> nums)</span> {
+	<span class="hljs-comment">// TODO</span>
+    }
+}
 </code></pre>
 <h2>2.2 Сортировка слиянием (Merge sort)</h2>
-<p><a href="https://replit.com/@IlyaSiganov/0202mergesort">Шаблон кода</a></p>
 <p>Дан массив чисел. Отсортировать в порядке возрастания алгоритмом сортировки слиянием.</p>
 <h3>Входные данные</h3>
-<p>Входные данные подаются на cin.</p>
+<p>Входные данные подаются на System.in.</p>
 <p>В первой строке содержится число N (1 &#x3C;= N &#x3C;=100000) — количество элементов в массиве.
 Во второй строке находятся N целых чисел, по модулю не превосходящих 10^9.</p>
 <pre><code class="hljs language-txt">10
 1 2 5 1 1 2 6 8 9 3
 </code></pre>
 <h3>Выходные данные</h3>
-<p>В cout вывести отсортированный массив числе по возрастанию через пробел.</p>
+<p>В System.out вывести отсортированный массив числе по возрастанию через пробел.</p>
 <pre><code class="hljs language-txt">1 1 1 2 2 3 5 6 8 9
 </code></pre>
+<h3>Шаблон кода</h3>
+<pre><code class="hljs language-java"><span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MergeSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sortable</span>&#x3C;Integer> {
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">slice</span><span class="hljs-params">(List&#x3C;Integer> nums, <span class="hljs-type">int</span> start, <span class="hljs-type">int</span> end)</span> {
+	<span class="hljs-comment">// TODO</span>
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">merge</span><span class="hljs-params">(List&#x3C;Integer> nums, <span class="hljs-type">int</span> start, <span class="hljs-type">int</span> middle, <span class="hljs-type">int</span> end)</span> {
+	<span class="hljs-comment">// TODO</span>
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(List&#x3C;Integer> nums)</span> {
+	slice(nums, <span class="hljs-number">0</span>, nums.size() - <span class="hljs-number">1</span>);
+    }
+}
+</code></pre>
 <h2>2.3 Сортировка структур</h2>
-<p><a href="https://replit.com/@IlyaSiganov/0203structssort">Шаблон кода</a></p>
 <p>Упорядочить массив Студентов по возрастанию возраста и в лексикографическом порядке имен, применив сортировку дважды.
-Для этой задачи используйте сортировки из стандартной библиотеки: <a href="https://en.cppreference.com/w/cpp/algorithm/sort">sort</a> и <a href="https://en.cppreference.com/w/cpp/algorithm/stable_sort">stable_sort</a>.</p>
+В варианте на C++ можно было воспользоваться сортировками из стандартной библиотеки, для Java вам придётся реализовать их самостоятельно. Найдите, какие сортировки являются стабильными и нестабильными и реализуйте их.</p>
 <h3>Входные данные</h3>
-<p>Входные данные подаются на cin.</p>
+<p>Входные данные подаются на System.in.</p>
 <p>В первой строке содержится число N (1 &#x3C;= N &#x3C;=100000) — количество элементов в массиве.
 Далее N строк. В каждой строке сначала идет строка — имя студента, и через пробел чисдло — возраст студента.</p>
 <pre><code class="hljs language-txt">4
@@ -84,12 +118,41 @@ Anton 22
 Antonio 23
 </code></pre>
 <h3>Выходные данные</h3>
-<p>В cout вывести отсортированный массив студентов. Каждый студент на новой строке. Сначала имя, потом возраст через пробел.</p>
+<p>В System.out вывести отсортированный массив студентов. Каждый студент на новой строке. Сначала имя, потом возраст через пробел.</p>
 <pre><code class="hljs language-txt">Anton 22
 Antonio 23
 Vasya 19
 Vasya 21
+</code></pre>
+<h3>Шаблон кода</h3>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> {
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String name;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> age;
 
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Student</span><span class="hljs-params">(String name, <span class="hljs-type">int</span> age)</span> {
+        <span class="hljs-built_in">this</span>.name = name;
+        <span class="hljs-built_in">this</span>.age = age;
+    }
+
+    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span> {
+        <span class="hljs-keyword">return</span> name;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getAge</span><span class="hljs-params">()</span> {
+        <span class="hljs-keyword">return</span> age;
+    }
+}
+
+<span class="hljs-comment">// НЕ ДЕЛАЙТЕ это всё в одном файле 🙏🙏🙏</span>
+
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">StudentSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sortable</span>&#x3C;Student> {
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(List&#x3C;Student> students)</span> {
+	<span class="hljs-comment">// TODO</span>
+    }
+}
 </code></pre>
 </content></main>
   </div>
