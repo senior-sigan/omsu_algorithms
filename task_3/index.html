@@ -55,7 +55,7 @@
 <h3>Шаблон кода</h3>
 <pre><code class="hljs language-java"><span class="hljs-keyword">import</span> java.util.List;
 
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CountingSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sortable</span>&#x3C;Integer> {
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CountingSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sorting</span>&#x3C;Integer> {
     <span class="hljs-meta">@Override</span>
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(List&#x3C;Integer> nums)</span> {
 	<span class="hljs-comment">// TODO</span>
@@ -82,13 +82,23 @@
 <pre><code class="hljs language-java"><span class="hljs-keyword">import</span> java.math.BigInteger;
 <span class="hljs-keyword">import</span> java.util.List;
 
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RadixSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sortable</span>&#x3C;BigInteger> {
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RadixSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sorting</span>&#x3C;BigInteger> {
     <span class="hljs-meta">@Override</span>
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(List&#x3C;BigInteger> nums)</span> {
 	<span class="hljs-comment">// TODO</span>
     }
 }
 </code></pre>
+<h2>3.3 Сохранение обобщения</h2>
+<p>Все сортировки 2 и 3 блока реализовывали шаблонный интерфейс <code>Sorting</code>, заменяя в реализациях шаблонный тип на какой-то конкретный. В этой задаче сделайте новую реализацию любой из сортировок этих блоков, в которой сохранится шаблонный тип, а значит возможность сортировать любой тип, который реализует стандартный интерфейс <code>Comparable</code>.</p>
+<p>Протестируйте такую реализацию сортировки разных типах данных, например:</p>
+<ul>
+<li>Integer</li>
+<li>String</li>
+<li>LocalDateTime</li>
+<li>Student (из задачи 2.3)</li>
+<li>UUID</li>
+</ul>
 </content></main>
   </div>
 </body>

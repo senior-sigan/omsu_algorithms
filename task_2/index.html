@@ -58,7 +58,7 @@
 <pre><code class="hljs language-java"><span class="hljs-keyword">import</span> java.util.List;
 
 <span class="hljs-comment">// Этот интерфейс будет общим для всех остальных сортировок</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Sortable</span>&#x3C;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Comparable</span>&#x3C;T>> {
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Sorting</span>&#x3C;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Comparable</span>&#x3C;T>> {
     <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(List&#x3C;T> nums)</span>;
 }
 
@@ -66,7 +66,7 @@
 
 <span class="hljs-keyword">import</span> java.util.List;
 
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">InsertionSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sortable</span>&#x3C;Integer> {
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">InsertionSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sorting</span>&#x3C;Integer> {
     <span class="hljs-meta">@Override</span>
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(List&#x3C;Integer> nums)</span> {
 	<span class="hljs-comment">// TODO</span>
@@ -89,7 +89,7 @@
 <h3>Шаблон кода</h3>
 <pre><code class="hljs language-java"><span class="hljs-keyword">import</span> java.util.List;
 
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MergeSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sortable</span>&#x3C;Integer> {
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MergeSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sorting</span>&#x3C;Integer> {
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">slice</span><span class="hljs-params">(List&#x3C;Integer> nums, <span class="hljs-type">int</span> start, <span class="hljs-type">int</span> end)</span> {
 	<span class="hljs-comment">// TODO</span>
     }
@@ -147,7 +147,7 @@ Vasya 21
 
 <span class="hljs-keyword">import</span> java.util.List;
 
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">StudentSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sortable</span>&#x3C;Student> {
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">StudentSort</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Sorting</span>&#x3C;Student> {
     <span class="hljs-meta">@Override</span>
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(List&#x3C;Student> students)</span> {
 	<span class="hljs-comment">// TODO</span>
