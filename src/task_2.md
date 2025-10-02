@@ -37,7 +37,7 @@ title: Задание 2. Сортировки
 import java.util.List;
 
 // Этот интерфейс будет общим для всех остальных сортировок
-public interface Sortable<T extends Comparable<T>> {
+public interface Sorting<T extends Comparable<T>> {
     void sort(List<T> nums);
 }
 
@@ -45,7 +45,7 @@ public interface Sortable<T extends Comparable<T>> {
 
 import java.util.List;
 
-public class InsertionSort implements Sortable<Integer> {
+public class InsertionSort implements Sorting<Integer> {
     @Override
     public void sort(List<Integer> nums) {
 	// TODO
@@ -82,7 +82,7 @@ public class InsertionSort implements Sortable<Integer> {
 ```java
 import java.util.List;
 
-public class MergeSort implements Sortable<Integer> {
+public class MergeSort implements Sorting<Integer> {
     private void slice(List<Integer> nums, int start, int end) {
 	// TODO
     }
@@ -154,7 +154,7 @@ public class Student {
 
 import java.util.List;
 
-public class StudentSort implements Sortable<Student> {
+public class StudentSort implements Sorting<Student> {
     @Override
     public void sort(List<Student> students) {
 	// TODO

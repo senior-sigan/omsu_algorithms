@@ -32,7 +32,7 @@ title: Задание 3. Сортировки 2
 ```java
 import java.util.List;
 
-public class CountingSort implements Sortable<Integer> {
+public class CountingSort implements Sorting<Integer> {
     @Override
     public void sort(List<Integer> nums) {
 	// TODO
@@ -71,11 +71,22 @@ public class CountingSort implements Sortable<Integer> {
 import java.math.BigInteger;
 import java.util.List;
 
-public class RadixSort implements Sortable<BigInteger> {
+public class RadixSort implements Sorting<BigInteger> {
     @Override
     public void sort(List<BigInteger> nums) {
 	// TODO
     }
 }
 ```
+
+## 3.3 Сохранение обобщения
+
+Все сортировки 2 и 3 блока реализовывали шаблонный интерфейс `Sorting`, заменяя в реализациях шаблонный тип на какой-то конкретный. В этой задаче сделайте новую реализацию любой из сортировок этих блоков, в которой сохранится шаблонный тип, а значит возможность сортировать любой тип, который реализует стандартный интерфейс `Comparable`.
+
+Протестируйте такую реализацию сортировки разных типах данных, например:
+- Integer
+- String
+- LocalDateTime
+- Student (из задачи 2.3)
+- UUID
 
