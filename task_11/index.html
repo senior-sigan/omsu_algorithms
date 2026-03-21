@@ -240,8 +240,8 @@
         }
 
         <span class="hljs-keyword">for</span> (Edge edge : edges) {
-            <span class="hljs-type">Node</span> <span class="hljs-variable">u</span> <span class="hljs-operator">=</span> nodes.get(nodePositionsByNodeId.get(edge.u));
-            <span class="hljs-type">Node</span> <span class="hljs-variable">v</span> <span class="hljs-operator">=</span> nodes.get(nodePositionsByNodeId.get(edge.v));
+            <span class="hljs-type">Node</span> <span class="hljs-variable">u</span> <span class="hljs-operator">=</span> nodes.get(nodePositionsByNodeId.get(edge.getU()));
+            <span class="hljs-type">Node</span> <span class="hljs-variable">v</span> <span class="hljs-operator">=</span> nodes.get(nodePositionsByNodeId.get(edge.getV()));
 
             edge.setUx(u.getX());
             edge.setUy(u.getY());
