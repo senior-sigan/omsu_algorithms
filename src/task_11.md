@@ -226,8 +226,8 @@ public class Main {
         }
 
         for (Edge edge : edges) {
-            Node u = nodes.get(nodePositionsByNodeId.get(edge.u));
-            Node v = nodes.get(nodePositionsByNodeId.get(edge.v));
+            Node u = nodes.get(nodePositionsByNodeId.get(edge.getU()));
+            Node v = nodes.get(nodePositionsByNodeId.get(edge.getV()));
 
             edge.setUx(u.getX());
             edge.setUy(u.getY());
