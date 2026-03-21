@@ -51,200 +51,225 @@
 </ul>
 <p><img src="https://habrastorage.org/r/w1560/web/7a3/f91/7e2/7a3f917e25b6466b9c228ef3ec8078de.png" alt="картанка"></p>
 <h2>1. И пусть весь мир подождёт</h2>
-<p>Первый спринт разработки. Для начала определитись с форматом хранения базы данных дорог. Научитесь считывать сырые данные и складывать в удобный для вашего алгоритма формат.</p>
+<p>Первый спринт разработки. Для начала определитесь с форматом хранения базы данных дорог. Научитесь считывать сырые данные и складывать в удобный для вашего алгоритма формат.</p>
 <details>
-<summary>Код для считывания графа из файла и отрисовки на экране</summary>
-<p>Для первого задания вы можете удалить всё связанное с raylib.</p>
-<p>У меня есть шаблон для raylib проекта с cmake: <a href="https://github.com/cat-in-the-dark/cpp_game_template">тут</a>. Но проще всё делать на linux/macos/wsl2 и поставить raylib, как пакет-библиотеку на всю систему.</p>
-<p><a href="https://www.youtube.com/watch?v=4M0t4ylv-_I">Старый стрим про установку Raylib на Macos/Linux</a></p>
-<pre><code class="hljs language-cpp"><span class="hljs-comment">// Команда для компиляции: clang++ -std=c++20 -pedantic -pedantic-errors -Wall  -Wextra $(pkg-config --libs --cflags raylib) main.cpp -o main</span>
-
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;fstream></span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;iomanip></span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;iostream></span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;raylib.h></span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;sstream></span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;string></span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;vector></span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;unordered_map></span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;cmath></span></span>
-
-<span class="hljs-type">const</span> <span class="hljs-type">int</span> CANVAS_WIDTH = <span class="hljs-number">1200</span>;
-<span class="hljs-type">const</span> <span class="hljs-type">int</span> CANVAS_HEIGHT = <span class="hljs-number">800</span>;
-
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Node</span> {
-  <span class="hljs-type">long</span> id;
-  <span class="hljs-type">double</span> lon;
-  <span class="hljs-type">double</span> lat;
-
-  <span class="hljs-type">double</span> x;
-  <span class="hljs-type">double</span> y;
-
-  <span class="hljs-built_in">Node</span>(<span class="hljs-type">long</span> id, <span class="hljs-type">double</span> lon, <span class="hljs-type">double</span> lat) : <span class="hljs-built_in">id</span>(id), <span class="hljs-built_in">lon</span>(lon), <span class="hljs-built_in">lat</span>(lat) {}
-};
-
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Edge</span> {
-  <span class="hljs-type">long</span> u;
-  <span class="hljs-type">long</span> v;
-
-  <span class="hljs-type">double</span> ux;
-  <span class="hljs-type">double</span> uy;
-
-  <span class="hljs-type">double</span> vx;
-  <span class="hljs-type">double</span> vy;
-
-  <span class="hljs-type">long</span> dist; <span class="hljs-comment">// расстояние между u-v</span>
-
-  <span class="hljs-built_in">Edge</span>(<span class="hljs-type">long</span> u, <span class="hljs-type">long</span> v) : <span class="hljs-built_in">u</span>(u), <span class="hljs-built_in">v</span>(v) {}
-};
-
-<span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">eucledean_dist</span><span class="hljs-params">(
-  <span class="hljs-type">double</span> x1, <span class="hljs-type">double</span> y1, <span class="hljs-type">double</span> x2, <span class="hljs-type">double</span> y2
-)</span> </span>{
-  <span class="hljs-keyword">return</span> std::<span class="hljs-built_in">sqrt</span>(std::<span class="hljs-built_in">pow</span>(x2 - x1, <span class="hljs-number">2</span>) + std::<span class="hljs-built_in">pow</span>(y1 - y2, <span class="hljs-number">2</span>));
+<summary>Код для считывания графа из файла</summary>
+<p>Это лишь небольшой шаблон того, с чего можно начать, при желании доработайте его под свои нужды</p>
+<p>Файл Node.java</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Node</span> {
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> id;
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">double</span> lon;
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">double</span> lat;
+  <span class="hljs-keyword">private</span> <span class="hljs-type">double</span> x;
+  <span class="hljs-keyword">private</span> <span class="hljs-type">double</span> y;
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-title function_">Node</span><span class="hljs-params">(<span class="hljs-type">long</span> id, <span class="hljs-type">double</span> lon, <span class="hljs-type">double</span> lat)</span> {
+    <span class="hljs-built_in">this</span>.id = id;
+    <span class="hljs-built_in">this</span>.lon = lon;
+    <span class="hljs-built_in">this</span>.lat = lat;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">long</span> <span class="hljs-title function_">getId</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> id;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">getLon</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> lon;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">getLat</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> lat;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">getX</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> x;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setX</span><span class="hljs-params">(<span class="hljs-type">double</span> x)</span> {
+    <span class="hljs-built_in">this</span>.x = x;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">getY</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> y;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setY</span><span class="hljs-params">(<span class="hljs-type">double</span> y)</span> {
+    <span class="hljs-built_in">this</span>.y = y;
+  }
 }
-
-<span class="hljs-function">std::vector&#x3C;Node> <span class="hljs-title">read_nodes</span><span class="hljs-params">(std::string path)</span> </span>{
-  <span class="hljs-function">std::fstream <span class="hljs-title">csv</span><span class="hljs-params">(path)</span></span>;
-
-  <span class="hljs-comment">// skip csv header</span>
-  std::string header;
-  std::<span class="hljs-built_in">getline</span>(csv, header);
-
-  std::vector&#x3C;Node> nodes;
-  <span class="hljs-comment">// read data</span>
-  <span class="hljs-keyword">for</span> (std::string line; std::<span class="hljs-built_in">getline</span>(csv, line);) {
-    <span class="hljs-function">std::stringstream <span class="hljs-title">lineStream</span><span class="hljs-params">(line)</span></span>;
-    std::string cell;
-
-    std::<span class="hljs-built_in">getline</span>(lineStream, cell, <span class="hljs-string">','</span>);
-    <span class="hljs-type">long</span> id = std::<span class="hljs-built_in">stol</span>(cell);
-
-    std::<span class="hljs-built_in">getline</span>(lineStream, cell, <span class="hljs-string">','</span>);
-    <span class="hljs-type">double</span> lon = std::<span class="hljs-built_in">stod</span>(cell);
-
-    std::<span class="hljs-built_in">getline</span>(lineStream, cell, <span class="hljs-string">','</span>);
-    <span class="hljs-type">double</span> lat = std::<span class="hljs-built_in">stod</span>(cell);
-
-    nodes.<span class="hljs-built_in">emplace_back</span>(id, lon, lat);
+</code></pre>
+<p>Файл Edge.java</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Edge</span> {
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> u;
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> v;
+  <span class="hljs-keyword">private</span> <span class="hljs-type">double</span> ux;
+  <span class="hljs-keyword">private</span> <span class="hljs-type">double</span> uy;
+  <span class="hljs-keyword">private</span> <span class="hljs-type">double</span> vx;
+  <span class="hljs-keyword">private</span> <span class="hljs-type">double</span> vy;
+  <span class="hljs-keyword">private</span> <span class="hljs-type">long</span> distance; <span class="hljs-comment">// расстояние между u-v</span>
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-title function_">Edge</span><span class="hljs-params">(<span class="hljs-type">long</span> u, <span class="hljs-type">long</span> v)</span> {
+    <span class="hljs-built_in">this</span>.u = u;
+    <span class="hljs-built_in">this</span>.v = v;
   }
-
-  <span class="hljs-keyword">return</span> nodes;
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">long</span> <span class="hljs-title function_">getU</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> u;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">long</span> <span class="hljs-title function_">getV</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> v;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">getUx</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> ux;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setUx</span><span class="hljs-params">(<span class="hljs-type">double</span> ux)</span> {
+    <span class="hljs-built_in">this</span>.ux = ux;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">getUy</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> uy;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setUy</span><span class="hljs-params">(<span class="hljs-type">double</span> uy)</span> {
+    <span class="hljs-built_in">this</span>.uy = uy;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">getVx</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> vx;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setVx</span><span class="hljs-params">(<span class="hljs-type">double</span> vx)</span> {
+    <span class="hljs-built_in">this</span>.vx = vx;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">getVy</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> vy;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setVy</span><span class="hljs-params">(<span class="hljs-type">double</span> vy)</span> {
+    <span class="hljs-built_in">this</span>.vy = vy;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-type">long</span> <span class="hljs-title function_">getDistance</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> distance;
+  }
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setDistance</span><span class="hljs-params">(<span class="hljs-type">long</span> distance)</span> {
+    <span class="hljs-built_in">this</span>.distance = distance;
+  }
 }
+</code></pre>
+<p>Тут мы инкапсулируем считывание данных из файла. Напоминаю, это только шаблон, feel free to доработать этот код под себя, изменить или вообще написать совсем по-своему.</p>
+<p>Файл MapFileReaderUtils.java</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">import</span> java.io.BufferedReader;
+<span class="hljs-keyword">import</span> java.io.FileReader;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.List;
 
-<span class="hljs-function">std::vector&#x3C;Edge> <span class="hljs-title">read_edges</span><span class="hljs-params">(std::string path)</span> </span>{
-  <span class="hljs-function">std::fstream <span class="hljs-title">csv</span><span class="hljs-params">(path)</span></span>;
-
-  <span class="hljs-comment">// skip csv header</span>
-  std::string header;
-  std::<span class="hljs-built_in">getline</span>(csv, header);
-
-  std::vector&#x3C;Edge> edges;
-
-  <span class="hljs-keyword">for</span> (std::string line; std::<span class="hljs-built_in">getline</span>(csv, line);) {
-    <span class="hljs-function">std::stringstream <span class="hljs-title">lineStream</span><span class="hljs-params">(line)</span></span>;
-    std::string cell;
-
-    std::<span class="hljs-built_in">getline</span>(lineStream, cell, <span class="hljs-string">','</span>);
-    <span class="hljs-type">long</span> u = std::<span class="hljs-built_in">stol</span>(cell);
-
-    std::<span class="hljs-built_in">getline</span>(lineStream, cell, <span class="hljs-string">','</span>);
-    <span class="hljs-type">long</span> v = std::<span class="hljs-built_in">stol</span>(cell);
-
-    edges.<span class="hljs-built_in">emplace_back</span>(u, v);
-  }
-
-  <span class="hljs-keyword">return</span> edges;
-}
-
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
-  <span class="hljs-keyword">auto</span> nodes = <span class="hljs-built_in">read_nodes</span>(<span class="hljs-string">"omsk/nodes.csv"</span>);
-  <span class="hljs-keyword">auto</span> edges = <span class="hljs-built_in">read_edges</span>(<span class="hljs-string">"omsk/edges.csv"</span>);
-
-  std::unordered_map&#x3C;<span class="hljs-type">long</span>, std::<span class="hljs-type">size_t</span>> node_id_to_pos;
-  <span class="hljs-keyword">for</span> (std::<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &#x3C; nodes.<span class="hljs-built_in">size</span>(); i++) {
-    <span class="hljs-keyword">auto</span>&#x26; node = nodes[i];
-    node_id_to_pos[node.id] = i;
-  }
-
-  std::cout &#x3C;&#x3C; nodes.<span class="hljs-built_in">size</span>() &#x3C;&#x3C; std::endl;
-  std::cout &#x3C;&#x3C; edges.<span class="hljs-built_in">size</span>() &#x3C;&#x3C; std::endl;
-
-  <span class="hljs-type">double</span> min_lon = nodes[<span class="hljs-number">0</span>].lon;
-  <span class="hljs-type">double</span> max_lon = nodes[<span class="hljs-number">0</span>].lon;
-  <span class="hljs-type">double</span> min_lat = nodes[<span class="hljs-number">0</span>].lat;
-  <span class="hljs-type">double</span> max_lat = nodes[<span class="hljs-number">0</span>].lat;
-
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &#x26;node : nodes) {
-    <span class="hljs-keyword">if</span> (min_lat > node.lat) {
-      min_lat = node.lat;
-    }
-    <span class="hljs-keyword">if</span> (min_lon > node.lon) {
-      min_lon = node.lon;
-    }
-    <span class="hljs-keyword">if</span> (max_lat &#x3C; node.lat) {
-      max_lat = node.lat;
-    }
-    <span class="hljs-keyword">if</span> (max_lon &#x3C; node.lon) {
-      max_lon = node.lon;
-    }
-  }
-
-  <span class="hljs-type">double</span> delta_lon = max_lon - min_lon;
-  <span class="hljs-type">double</span> delta_lat = max_lat - min_lat;
-  <span class="hljs-type">double</span> scale = <span class="hljs-built_in">double</span>(CANVAS_HEIGHT) / std::<span class="hljs-built_in">min</span>(delta_lat, delta_lon);
-
-  std::cout &#x3C;&#x3C; delta_lon &#x3C;&#x3C; <span class="hljs-string">" "</span> &#x3C;&#x3C; delta_lat &#x3C;&#x3C; std::endl;
-
-  std::cout &#x3C;&#x3C; min_lon &#x3C;&#x3C; <span class="hljs-string">" "</span> &#x3C;&#x3C; min_lat &#x3C;&#x3C; <span class="hljs-string">"; "</span> &#x3C;&#x3C; max_lon &#x3C;&#x3C; <span class="hljs-string">" "</span> &#x3C;&#x3C; max_lat
-            &#x3C;&#x3C; std::endl;
-
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&#x26; node: nodes) {
-    node.x = (node.lon - min_lon) * scale;
-    <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> костыль, надо перевернуть канвас</span>
-    node.y = CANVAS_HEIGHT - ( node.lat - min_lat) * scale;
-  }
-
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&#x26; edge: edges) {
-    <span class="hljs-keyword">auto</span>&#x26; u = nodes[node_id_to_pos[edge.u]];
-    <span class="hljs-keyword">auto</span>&#x26; v = nodes[node_id_to_pos[edge.v]]; 
-    edge.ux = u.x;
-    edge.uy = u.y;
-    edge.vx = v.x;
-    edge.vy = v.y;
-
-    edge.dist = <span class="hljs-built_in">eucledean_dist</span>(edge.ux, edge.uy, edge.vx, edge.vy);
-  }
-
-  <span class="hljs-built_in">InitWindow</span>(CANVAS_WIDTH, CANVAS_HEIGHT, <span class="hljs-string">"OMSK"</span>);
-  <span class="hljs-built_in">SetTargetFPS</span>(<span class="hljs-number">60</span>);
-
-  <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">WindowShouldClose</span>()) {
-    <span class="hljs-built_in">BeginDrawing</span>();
-      <span class="hljs-built_in">ClearBackground</span>(RAYWHITE);
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&#x26; node: nodes) {
-        <span class="hljs-built_in">DrawCircle</span>(node.x, node.y, <span class="hljs-number">1.5</span>, RED);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MapFileReaderUtils</span> {
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&#x3C;Node> <span class="hljs-title function_">readNodes</span><span class="hljs-params">(String filePath)</span> <span class="hljs-keyword">throws</span> IOException {
+    List&#x3C;Node> nodes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&#x3C;>();
+    
+    <span class="hljs-keyword">try</span> (<span class="hljs-type">BufferedReader</span> <span class="hljs-variable">br</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileReader</span>(filePath))) {
+      <span class="hljs-type">String</span> <span class="hljs-variable">line</span> <span class="hljs-operator">=</span> br.readLine();
+      <span class="hljs-keyword">while</span> ((line = br.readLine()) != <span class="hljs-literal">null</span>) {
+        <span class="hljs-keyword">if</span> (line.isEmpty()) {
+          <span class="hljs-keyword">continue</span>;
+        }
+        
+        String[] cells = line.split(<span class="hljs-string">","</span>);
+        <span class="hljs-keyword">if</span> (cells.length >= <span class="hljs-number">3</span>) {
+          <span class="hljs-type">long</span> <span class="hljs-variable">id</span> <span class="hljs-operator">=</span> Long.parseLong(cells[<span class="hljs-number">0</span>].trim());
+          <span class="hljs-type">double</span> <span class="hljs-variable">lon</span> <span class="hljs-operator">=</span> Double.parseDouble(cells[<span class="hljs-number">1</span>].trim());
+          <span class="hljs-type">double</span> <span class="hljs-variable">lat</span> <span class="hljs-operator">=</span> Double.parseDouble(cells[<span class="hljs-number">2</span>].trim());
+          nodes.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(id, lon, lat));
+        }
       }
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&#x26; edge: edges) {
-        <span class="hljs-built_in">DrawLine</span>(edge.ux, edge.uy, 
-                 edge.vx, edge.vy, BLACK);
-      }
-    <span class="hljs-built_in">EndDrawing</span>();
+    }
+    <span class="hljs-keyword">return</span> nodes;
   }
-  <span class="hljs-built_in">CloseWindow</span>();
+  
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&#x3C;Edge> <span class="hljs-title function_">readEdges</span><span class="hljs-params">(String filePath)</span> <span class="hljs-keyword">throws</span> IOException {
+    List&#x3C;Edge> edges = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&#x3C;>();
+    
+    <span class="hljs-keyword">try</span> (<span class="hljs-type">BufferedReader</span> <span class="hljs-variable">br</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileReader</span>(filePath))) {
+      <span class="hljs-type">String</span> <span class="hljs-variable">line</span> <span class="hljs-operator">=</span> br.readLine();
+      <span class="hljs-keyword">while</span> ((line = br.readLine()) != <span class="hljs-literal">null</span>) {
+        <span class="hljs-keyword">if</span> (line.isEmpty()) {
+          <span class="hljs-keyword">continue</span>;
+        }
+        
+        String[] cells = line.split(<span class="hljs-string">","</span>);
+        <span class="hljs-keyword">if</span> (cells.length >= <span class="hljs-number">2</span>) {
+          <span class="hljs-type">long</span> <span class="hljs-variable">u</span> <span class="hljs-operator">=</span> Long.parseLong(cells[<span class="hljs-number">0</span>].trim());
+          <span class="hljs-type">long</span> <span class="hljs-variable">v</span> <span class="hljs-operator">=</span> Long.parseLong(cells[<span class="hljs-number">1</span>].trim());
+          edges.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Edge</span>(u, v));
+        }
+      }
+    }
+    <span class="hljs-keyword">return</span> edges;
+  }
+}
+</code></pre>
+<p>Файл DistanceUtils.java</p>
+<p>Допустим, вынесем вычисление дистанций вот так</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">import</span> java.util.*;
 
-  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DistanceUtils</span> {
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">double</span> <span class="hljs-title function_">euclideanDistance</span><span class="hljs-params">(<span class="hljs-type">double</span> x1, <span class="hljs-type">double</span> y1, <span class="hljs-type">double</span> x2, <span class="hljs-type">double</span> y2)</span> {
+    <span class="hljs-keyword">return</span> Math.sqrt(Math.pow(x2 - x1, <span class="hljs-number">2</span>) + Math.pow(y1 - y2, <span class="hljs-number">2</span>));;
+  }
+}
+</code></pre>
+<p>Main.java</p>
+<p>Что-то вроде такого</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Main</span> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> {
+        List&#x3C;Node> nodes = MapFileReaderUtils.readNodes(<span class="hljs-string">"omsk/nodes.csv"</span>);
+        List&#x3C;Edge> edges = MapFileReaderUtils.readEdges(<span class="hljs-string">"omsk/edges.csv"</span>);
+
+        Map&#x3C;Long, Integer> nodePositionsByNodeId = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&#x3C;>();
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &#x3C; nodes.size(); i++) {
+            nodePositionsByNodeId.put(nodes.get(i).getId(), i);
+        }
+
+        <span class="hljs-keyword">for</span> (Edge edge : edges) {
+            <span class="hljs-type">Node</span> <span class="hljs-variable">u</span> <span class="hljs-operator">=</span> nodes.get(nodePositionsByNodeId.get(edge.u));
+            <span class="hljs-type">Node</span> <span class="hljs-variable">v</span> <span class="hljs-operator">=</span> nodes.get(nodePositionsByNodeId.get(edge.v));
+
+            edge.setUx(u.getX());
+            edge.setUy(u.getY());
+            edge.setVx(v.getX());
+            edge.setVy(v.getY());
+            edge.setDistance(DistanceUtils.euclideanDistance(edge.getUx(), edge.getUy(), edge.getVx(), edge.getVy()));
+        }
+    }
 }
 </code></pre>
 </details>
 <p>Далее реализуйте алгоритм Дейкстры для поиска пути.</p>
+<p>Сделайте отдельный интерфейс <code>RouteBuilder</code> примерно такого вида</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">RouteBuilder</span> {
+  List&#x3C;Edge> <span class="hljs-title function_">createRoute</span><span class="hljs-params">(Node start, Node finish)</span>;
+}
+</code></pre>
+<p>Под реализацию Дейкстры сделайте класс <code>DijkstraRouteBuilder</code>, реализующий этот интерфейс, с реализацией алгоритма.</p>
 <h2>2. Чтобы стоять на месте нужно бежать со всех ног</h2>
-<p>Отдел поддержки собщает, что доставка не улкадывается в срок "доставить пиццу на за неделю". И проблема не в доставщиках пиццы и не в кухне, а в алгоритме поиска пути. Его надо ускорить!</p>
+<p>Отдел поддержки собщает, что доставка не улкадывается в срок "доставить пиццу н за неделю". И проблема не в доставщиках пиццы и не в кухне, а в алгоритме поиска пути. Его надо ускорить!</p>
 <p>Реализуйте алгоритм А* для поиска пути.</p>
-<h2>3. Становимся Единорогом</h2>
+<p>Под реализацию A* сделайте класс <code>AStarRouteBuilder</code>, реализующий интерфейс <code>RouteBuilder</code>, с реализацией алгоритма.</p>
+<h2>3. To See the World...</h2>
 <p>Пользователи хотят видеть маршрут, по которому к ним поедет доставщик.</p>
-<p>Реализуйте визуализацию вашего алгоритма. Используйте для этого библиотеку <a href="https://github.com/raysan5/raylib">raylib</a>.</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/BR4_SrTWbMw?si=g-JGTtbod5qvvzNe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<p>Реализуйте визуализацию вашего алгоритма. Используйте для этого библиотеку <a href="https://libgdx.com/dev/">libGDX</a>.</p>
+<p>Есть описание создания простого проекта с этой библиотекой <a href="https://libgdx.com/wiki/start/setup">вот здесь</a>, <a href="https://libgdx.com/wiki/start/demos-and-tutorials">тут</a> есть небольшие туториалы. Помимо туториалов (не только этих) воспользуйтесь нейронками, 2026 год как-никак Sadge.</p>
 <h2>Всякие материалы по дорогам и картам</h2>
 <ul>
 <li><a href="https://osmnx.readthedocs.io/en/stable/">OSMNX</a> - визуализация и загрузка графов дорог на питоне</li>
