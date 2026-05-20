@@ -50,9 +50,14 @@
 <li>целые числа, в том числе отрицательные.</li>
 </ul>
 <p>Пример использования:</p>
-<pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
-  <span class="hljs-type">int</span> res = <span class="hljs-built_in">calc</span>(<span class="hljs-string">"4 1 + 5 *"</span>);
-  <span class="hljs-built_in">assert</span>(res == (<span class="hljs-number">4</span><span class="hljs-number">+1</span>)*<span class="hljs-number">5</span>);
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> {
+    <span class="hljs-type">int</span> <span class="hljs-variable">expected</span> <span class="hljs-operator">=</span> (<span class="hljs-number">4</span> + <span class="hljs-number">1</span>) * <span class="hljs-number">5</span>;
+    <span class="hljs-type">int</span> <span class="hljs-variable">actual</span> <span class="hljs-operator">=</span> calc(<span class="hljs-string">"4 1 + 5 *"</span>);
+    <span class="hljs-keyword">if</span> (expected == actual) {
+        System.out.println(<span class="hljs-string">"Вычисления правильны, ответ: "</span> + actual);
+    } <span class="hljs-keyword">else</span> {
+        System.out.println(<span class="hljs-string">"Ожидалось: "</span> + expected + <span class="hljs-string">"; но получили "</span> + actual);
+    }
 }
 </code></pre>
 <h2>Программируемый польский калькулятор</h2>
@@ -60,46 +65,179 @@
 <p>Проектируйте калькулятор, как библиотеку, чтобы пользователь мог дописать свой оператор и встроить в наш калькулятор, не меняя код самой библиотеки.</p>
 <p>Главные нововведения:</p>
 <ul>
-<li>парсинг float чисел</li>
-<li>создание операций произвольной арности, например, <code>sum</code> должна просуммировать вообще всё что в стеке лежит.</li>
+<li>Парсинг float чисел</li>
+<li>Добавление арности для операторов. Если по-простому, арность - это количество параметров у оператора. Например, у оператора <code>+</code> арность 2, у <code>*</code> тоже 2. Важный момент в том, что отрицательное число из прошлого пункта - это не число вида <code>-31</code>, а число <code>31</code> к которому применили операцию унарный минус <code>-</code>. Различать по контексту унарный минус с арностью 1 от минуса с арностью 2 может быть проблематично, поэтому в качестве оператора унарного минуса можно использовать <code>m</code></li>
+<li>Создание операций произвольной арности, например, <code>sum</code> должна просуммировать вообще всё что в стеке лежит. Но будьте внимательны, помимо оператора <code>sum</code> могут быть и другие операторы, например <code>1 2 3 sum 4 *</code></li>
 </ul>
-<p>Нельзя использовать std::atoi-like функций. Сами встройте парсер числа.</p>
-<pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
-  ModuleOp mod_op;
-  Calculator calc;
-  calc.<span class="hljs-built_in">register</span>(<span class="hljs-string">"%"</span>, &#x26;mod_op);
-  SumOp sum_op;
-  calc.<span class="hljs-built_in">register</span>(<span class="hljs-string">"sum"</span>, &#x26;sum_op);
-
-  {
-  <span class="hljs-keyword">auto</span> s = <span class="hljs-string">"6 8 + 3 %"</span>;
-  <span class="hljs-keyword">auto</span> tokens = <span class="hljs-built_in">Tokenize</span>(s);
-  <span class="hljs-type">float</span> res = calc.<span class="hljs-built_in">eval</span>(tokens);
-  <span class="hljs-built_in">assert</span>(res == (<span class="hljs-number">6</span><span class="hljs-number">+8</span>) % <span class="hljs-number">3</span>);
-  }
-
-  {
-    <span class="hljs-keyword">auto</span> tokens = <span class="hljs-built_in">Tokenize</span>(<span class="hljs-string">"1 2 3 4 5 6 sum"</span>);
-    <span class="hljs-type">float</span> res = calc.<span class="hljs-built_in">eval</span>(tokens);
-    <span class="hljs-built_in">assert</span>(res == <span class="hljs-number">1</span> + <span class="hljs-number">2</span> + <span class="hljs-number">3</span> + <span class="hljs-number">4</span> + <span class="hljs-number">5</span> + <span class="hljs-number">6</span>);
-  }
+<p>Нельзя использовать <code>Double.parseDouble</code> и все подобные методы. Сами встройте парсер числа.</p>
+<p>Пример того, как должно всё это использоваться.</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> {
+    <span class="hljs-type">Calculator</span> <span class="hljs-variable">calc</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Calculator</span>();
+    calc.register(<span class="hljs-string">"+"</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">AdditionOperation</span>());
+    calc.register(<span class="hljs-string">"%"</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">ModOperation</span>());
+    calc.register(<span class="hljs-string">"sum"</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">SumOperation</span>());
+    
+    <span class="hljs-type">Tokenizer</span> <span class="hljs-variable">tokenizer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PostfixTokenizer</span>();
+    
+    <span class="hljs-type">String</span> <span class="hljs-variable">equasion1</span> <span class="hljs-operator">=</span> <span class="hljs-string">"6 8 + 3 %"</span>;
+    List&#x3C;String> tokens1 = tokenizer.tokenize(equasion1);
+    <span class="hljs-type">double</span> <span class="hljs-variable">result1</span> <span class="hljs-operator">=</span> calc.evaluate(tokens1);
+    System.out.println(<span class="hljs-string">"Тест 1 результат: "</span> + result1);
+    
+    <span class="hljs-type">String</span> <span class="hljs-variable">equasion2</span> <span class="hljs-operator">=</span> <span class="hljs-string">"1 2 3 4 5 6 sum"</span>;
+    List&#x3C;String> tokens2 = tokenizer.tokenize(equasion2);
+    <span class="hljs-type">double</span> <span class="hljs-variable">result2</span> <span class="hljs-operator">=</span> calc.evaluate(tokens2);
+    System.out.println(<span class="hljs-string">"Тест 2 результат: "</span> + result2);
 }
 </code></pre>
+<details>
+<summary>Примерный вариант интерфейсов калькулятора</summary>
+<p>Общий интерфейс для каждой операции, к которой будет привязан оператор. Все +, -, /, * должны реализовывать его
+Operator.java</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Operator</span> {
+    <span class="hljs-comment">/**
+     * Возвращает количество аргументов, необходимых оператору.
+     * Если возвращает -1, значит оператор поглощает весь стек (вариативная арность).
+     * 
+     * <span class="hljs-doctag">@return</span> значение арности
+     */</span>
+    <span class="hljs-type">int</span> <span class="hljs-title function_">getArity</span><span class="hljs-params">()</span>;
+
+    <span class="hljs-comment">/**
+     * Выполнить операцию над стеком калькулятора и записать полученное значение в него.
+     * 
+     * <span class="hljs-doctag">@param</span> stack текущее состояние стека
+     */</span>
+    <span class="hljs-keyword">void</span> <span class="hljs-title function_">execute</span><span class="hljs-params">(Stack&#x3C;Double> stack)</span>;
+}
+</code></pre>
+<p>Это интерфейс токенизатора, который будет разбивать входную строку на список отдельных токенов.
+Tokenizer.java</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Tokenizer</span> {
+    
+    <span class="hljs-comment">/**
+     * Преобразование входной строки в список токенов.
+     *
+     * <span class="hljs-doctag">@param</span> expression строка математического выражения
+     * <span class="hljs-doctag">@return</span> список строковых токенов
+     */</span>
+    List&#x3C;String> <span class="hljs-title function_">tokenize</span><span class="hljs-params">(String expression)</span>;
+}
+</code></pre>
+<p>Дальше у него можно сделать класс <code>PostfixTokenizer</code>, который разобъёт входную строку на эти токены.</p>
+<p>У класса <code>Calculator</code> методы представлены в примере, на данный момент их хватит</p>
+</details>
 <h2>Нормальный калькулятор</h2>
 <p>Сделайте так, чтобы ваша библиотека поддерживала парсинг записей в инфиксной нотации: примение <a href="https://en.wikipedia.org/wiki/Shunting_yard_algorithm">алгоритм сортировочной станции</a>.</p>
-<pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
-  ModuleOp mod_op;
-  Calculator calc;
-  calc.<span class="hljs-built_in">register</span>(<span class="hljs-string">"%"</span>, &#x26;mod_op);
-  SumOp sum_op;
-  calc.<span class="hljs-built_in">register</span>(<span class="hljs-string">"sum"</span>, &#x26;sum_op);
+<p>Важный момент касательно оператора <code>sum</code> из прошлого пункта. Написание <code>1 2 3 4 sum</code> - это его обратная польская запись. В инфиксной записи он должен выглядеть так <code>sum(1, 2, 3, 4)</code> или хотя бы так <code>sum(1 2 3 4)</code></p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> {
+    <span class="hljs-type">CalculatorConfig</span> <span class="hljs-variable">infixConfig</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CalculatorConfig</span>(
+        <span class="hljs-keyword">new</span> <span class="hljs-title class_">InfixTokenizer</span>(), 
+        <span class="hljs-keyword">new</span> <span class="hljs-title class_">ShuntingYardParser</span>()
+    );
+    <span class="hljs-type">Calculator</span> <span class="hljs-variable">calc</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Calculator</span>(infixConfig);
+    
+    calc.register(<span class="hljs-string">"+"</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">AdditionOperation</span>());
+    calc.register(<span class="hljs-string">"/"</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">DivisionOperation</span>());
+    calc.register(<span class="hljs-string">"%"</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">ModOperation</span>());
+    calc.register(<span class="hljs-string">"sum"</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">SumOperation</span>());
+    
+    <span class="hljs-type">String</span> <span class="hljs-variable">equasion</span> <span class="hljs-operator">=</span> <span class="hljs-string">"sum(1, 2, 3, 4) / 5 + 9 % 2"</span>;
+    List&#x3C;String> tokens = calc.tokenize(equasion);
+    
+    List&#x3C;String> polishTokens = calc.toPolishNotation(tokens);
+    
+    <span class="hljs-type">double</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> calc.evaluate(polishTokens);
+    System.out.println(<span class="hljs-string">"Результат: "</span> + result);
+}
+</code></pre>
+<details>
+<summary>На что можно опереться здесь</summary>
+<p>В интерфейс <code>Operator.java</code> добавим два новых метода.</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Operator</span> {
+    <span class="hljs-comment">/**
+     * Возвращает количество аргументов, необходимых оператору.
+     * Если возвращает -1, значит оператор поглощает весь стек (вариативная арность).
+     * 
+     * <span class="hljs-doctag">@return</span> значение арности
+     */</span>
+    <span class="hljs-type">int</span> <span class="hljs-title function_">getArity</span><span class="hljs-params">()</span>;
+    
+    <span class="hljs-comment">/**
+     * Получить значение приоритета, заданное для определённого оператора.
+     * 
+     * <span class="hljs-doctag">@return</span> значение приоритета
+     */</span>
+    <span class="hljs-type">int</span> <span class="hljs-title function_">getPrecedence</span><span class="hljs-params">()</span>;
+    
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@return</span> `true` если оператор левоассоциативен
+     */</span>
+    <span class="hljs-type">boolean</span> <span class="hljs-title function_">isLeftAssociative</span><span class="hljs-params">()</span>;
 
-  string s = <span class="hljs-string">"(1 + 4) / 5 + 9 % 2"</span>;
-  <span class="hljs-keyword">auto</span> infix_tokens = <span class="hljs-built_in">Tokenize</span>(s);
-
-  <span class="hljs-keyword">auto</span> polish_tokens = <span class="hljs-built_in">ShuntingYard</span>(infix_tokens);
-
-  <span class="hljs-type">float</span> res = calc.<span class="hljs-built_in">eval</span>(polish_tokens);
+    <span class="hljs-comment">/**
+     * Выполнить операцию над стеком калькулятора и записать полученное значение в него.
+     * 
+     * <span class="hljs-doctag">@param</span> stack текущее состояние стека
+     */</span>
+    <span class="hljs-keyword">void</span> <span class="hljs-title function_">execute</span><span class="hljs-params">(Stack&#x3C;Double> stack)</span>;
+}
+</code></pre>
+<p>Добавьте новую реализацию интерфейса <code>Tokenizer.java</code> для инфиксной записи выражения - <code>InfixTokenizer</code>.</p>
+<p>Класс <code>ShuntingYardParser</code> будет содержать внутри себя алгоритм сортировочной станции.
+Под него можно выделить интерфейс типа такого</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ExpressionParser</span> {
+    <span class="hljs-comment">/**
+     * Переводим один формат токенов в другой.
+     * 
+     * <span class="hljs-doctag">@param</span> tokens изначальные токены
+     * <span class="hljs-doctag">@param</span> registry мапа с зарегистрированными в калькуляторе токенами
+     * <span class="hljs-doctag">@return</span> список преобразованныех токенов
+     */</span>
+    List&#x3C;String> <span class="hljs-title function_">parse</span><span class="hljs-params">(List&#x3C;String> tokens, Map&#x3C;String, Operator> registry)</span>;
+}
+</code></pre>
+<p>Класс <code>CalculatorConfig</code> можно добавить для того, чтобы инкапсулировать в себе возможные настройки для нашего <code>Calculator</code>.
+Если он будет в себе содержать поля с типами интерфейсов, то такой калькулятор можно будет просто перенастроить снова
+на работу с постфиксной записью. Достаточно будет сделать новый объект класса-конфига</p>
+<pre><code class="hljs language-java">    <span class="hljs-type">CalculatorConfig</span> <span class="hljs-variable">postfixConfig</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CalculatorConfig</span>(
+        <span class="hljs-keyword">new</span> <span class="hljs-title class_">PostfixTokenizer</span>(), 
+        <span class="hljs-keyword">new</span> <span class="hljs-title class_">IdentityParser</span>()
+    );
+</code></pre>
+</details>
+<h1>Дополнение</h1>
+<p>Все предыдущие изыскания оперались на том, что основной метод интерфейса-токенизатора такой: <code>List&#x3C;String> tokenize(String expression);</code>. Важный момент в том, что он возвращает список строк, которые являются токенами. Но...почему строк?</p>
+<p>В идеальном мире интерфейс-токенизатора должен выглядеть так</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Tokenizer</span> {
+    
+    <span class="hljs-comment">/**
+     * Преобразование входной строки в список токенов.
+     *
+     * <span class="hljs-doctag">@param</span> expression строка математического выражения
+     * <span class="hljs-doctag">@return</span> список токенов
+     */</span>
+    List&#x3C;Token> <span class="hljs-title function_">tokenize</span><span class="hljs-params">(String expression)</span>;
+}
+</code></pre>
+<p>Да, лучше будет сделать отдельный класс <code>Token</code>, который будет инкапсулировать в себе всю информацию о конкретном токене.
+Чем это поможет? Если вы читаете это после реализации класса <code>ShuntingYardParser</code>, то вы скорее всего столкнулись с большим количеством проверок вида <code>token.equals(")")</code> и постоянных проверок строки на то, является ли она числом.</p>
+<p>Так при токенизации сразу получится список готовых токенов <code>Token</code>, каждый из которых будет хранить и оригинальное строковое значние (типа "(", "+" или "67"), и готовое числовое значение (если это число), и тип токена.</p>
+<p>Под тип токена лучше сделать отдельный энам <code>TokenType</code> типа такого</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> <span class="hljs-title class_">TokenType</span> {
+    NUMBER,
+    OPERATOR,
+    OPEN_PAREN,
+    CLOSE_PAREN,
+    UNKNOWN
+}
+</code></pre>
+<p>Это очень сильно сократит вам код и <code>ShuntingYardParser</code>, и самого калькулятора.</p>
+<p>И если вы будете выбрасывать какие-то исключения во время работы калькулятора (а вы должны это делать в определённых кейсах), можно кидать не стандартные исключения, а свои кастомные типа такого</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CalculatorException</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">RuntimeException</span> {
+    CalculatorException(String message) {
+        <span class="hljs-built_in">super</span>(message);
+    }
 }
 </code></pre>
 <h1>Подсказки</h1>
