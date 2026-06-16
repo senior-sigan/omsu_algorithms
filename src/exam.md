@@ -50,3 +50,5 @@ title: Экзамен во 2ом семестре
 2. [E-maxx algo](https://e-maxx.ru/algo/)
 3. [Записи лекций в ОмГУ](https://www.youtube.com/playlist?list=PLXeMZKMKyJI4w_HoZvSD2OQk3WarFgPdS)
 4. [Записи лекций ШАДа](https://www.youtube.com/playlist?list=PLJOzdkh8T5koEPv-R5W0ovmL_T2BjB1HX)
+5. [Computer Graphics from Scratch. Gabriel Gambetta.](https://gabrielgambetta.com/computer-graphics-from-scratch/)
+6. [Game Programming Patterns. Robert Nystrom.](https://gameprogrammingpatterns.com/contents.html)
